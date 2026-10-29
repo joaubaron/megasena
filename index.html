@@ -337,7 +337,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.22</span></h1>
+<h1>Mega-Sena <span class="versao">v1.23</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -471,8 +471,8 @@ if ($('optQuentes').checked){
 var bolo = QUENTES.filter(function(n, i, a){return a.indexOf(n) === i && minhas.indexOf(n) < 0});
 extras = escolher(bolo, resto);
 } else {
-// Se desligar as quentes, sorteia de 1 a 60
-extras = sortear(resto, minhas);
+// Se desligar as quentes, sorteia de 1 a 60, sem usar mais nenhuma das suas
+extras = sortear(resto, MINHAS);
 }
 return minhas.concat(extras).sort(function(a,b){return a-b});
 }
