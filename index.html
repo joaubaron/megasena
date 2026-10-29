@@ -337,7 +337,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.23</span></h1>
+<h1>Mega-Sena <span class="versao">v1.24</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -404,10 +404,10 @@ var $ = function(id){return document.getElementById(id)};
 var CHAVE = 'megasena_salvos_v1';
 var CFG = 'megasena_cfg_v1';
 var MINHAS = [5,17,23,36,38,44];               // suas 6 dezenas fortes
-var QUENTES_FIXA = [4,10,30,32,33,34,37,53];   // reserva: mais sorteadas no histórico (fora as suas)
+var QUENTES_FIXA = [4,10,27,30,32,33,34,35,37,53]; // reserva (10): mais sorteadas no histórico geral, fora as suas
 var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
 var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
-var HIST = 'megasena_hist_v1';
+var HIST = 'megasena_hist_v2';
 var jogos = null; // [{dez:[], extra:n|null}, {dez:[], extra:n|null}]
 var vistos = {}; // jogos já gerados nesta sessão
 
@@ -590,7 +590,7 @@ function mostrarQuentes(rotulo){
 $('fonteQuentes').textContent = rotulo;
 $('listaQuentes').textContent = fmt(QUENTES);
 }
-// conta as dezenas dos últimos 5 anos; devolve as 8 que mais saíram (fora as suas)
+// conta as dezenas dos últimos 5 anos; devolve as 10 que mais saíram (fora as suas)
 function calcular(lista){
 if (!Array.isArray(lista)) return null;
 var d = new Date(); d.setFullYear(d.getFullYear() - 5);
@@ -605,13 +605,13 @@ if (n < 300) return null;
 var top = Object.keys(cont).map(Number)
 .filter(function(x){return MINHAS.indexOf(x) < 0})
 .sort(function(a,b){return cont[b] - cont[a] || a - b})
-.slice(0,8).sort(function(a,b){return a - b});
-return top.length === 8 ? top : null;
+.slice(0,10).sort(function(a,b){return a - b});
+return top.length === 10 ? top : null;
 }
 function historico(){
 var c = null;
 try { c = JSON.parse(localStorage.getItem(HIST)); } catch(e){}
-if (c && c.q && c.q.length === 8){ QUENTES = c.q; mostrarQuentes('Últimos 5 anos'); }
+if (c && c.q && c.q.length === 10){ QUENTES = c.q; mostrarQuentes('Últimos 5 anos'); }
 else mostrarQuentes('Histórico geral');
 if (c && c.em && Date.now() - c.em < 43200000) return;   // atualiza a cada 12 horas
 if (!window.fetch) return;
