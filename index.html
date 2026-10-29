@@ -262,25 +262,30 @@ justify-content: space-between;
 align-items: center;
 margin-top: 16px;
 width: 100%;
+flex-wrap: nowrap; /* Proíbe terminantemente de quebrar a linha */
 }
 
 .limpar {
-margin-top: 0;
+margin: 0 !important;
 padding: 8px 0;
+background: transparent;
+color: var(--suave);
+text-decoration: underline;
+border: none;
+font-size: 0.95rem;
 }
 
 .btn-meus-numeros {
 background: transparent;
 color: var(--verde);
-text-decoration: none; /* Remove o sublinhado */
+text-decoration: none !important; /* Arranca o sublinhado à força */
 padding: 8px 0;
-min-height: auto;
+margin: 0 !important;
 font-weight: 700;
 font-size: 1rem;
 border: none;
 cursor: pointer;
-margin-left: auto; /* Empurra para a direita */
-flex-shrink: 0; /* Impede de quebrar linha */
+display: inline-block;
 }
 
 .btn-meus-numeros:hover {
