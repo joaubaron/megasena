@@ -365,17 +365,17 @@ if (ok) return true;
 return false;
 }
 function escolher(lista, n){
-var pesos = lista.map(function(x){ return x === 27 ? 0.15 : 1; });
-var pool = lista.slice(), out = [];
-while (out.length < n && pool.length){
-var total = pesos.reduce(function(a,b){return a+b},0);
-var r = Math.random() * total, acc = 0, idx = 0;
-for (var i = 0; i < pool.length; i++){
-acc += pesos[i];
-if (r <= acc){ idx = i; break; }
+// Se a lista for a das suas dezenas e o 27 estiver nela, fazemos um filtro rígido
+var base = lista.slice();
+if (base.indexOf(27) > -1 && n < base.length) {
+// Remove o 27 da lista de opções (a menos que vc peça 6 ou 7 dezenas)
+base = base.filter(function(x){ return x !== 27; });
 }
-out.push(pool.splice(idx,1)[0]);
-pesos.splice(idx,1);
+
+var pool = base.slice(), out = [];
+while (out.length < n && pool.length){
+var k = rnd(pool.length);
+out.push(pool.splice(k,1)[0]);
 }
 return out;
 }
