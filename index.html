@@ -330,6 +330,18 @@ cursor: pointer;
 box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 border: 2px solid var(--papel);
 }
+
+/* --- CAIXA DE CONFIRMAÇÃO (no lugar da janela do sistema) --- */
+.caixa{
+background:var(--papel);border:1px solid var(--linha);border-radius:22px;
+padding:22px 20px 18px;width:100%;max-width:340px;
+box-shadow:0 14px 40px rgba(0,0,0,.45);
+}
+.caixa h3{margin:0 0 6px;font-size:1.2rem;font-weight:800;line-height:1.25}
+.caixa p{margin:0 0 18px;color:var(--suave);font-size:1rem}
+.caixa .botoes{display:flex;gap:10px}
+.caixa .botoes button{flex:1}
+button.perigo{background:#b3382c;color:#fff}
 </style>
 </head>
 <body>
@@ -337,7 +349,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.24</span></h1>
+<h1>Mega-Sena <span class="versao">v1.25</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -389,10 +401,22 @@ border: 2px solid var(--papel);
 </main>
 
 <!-- Modal Meus Números -->
-<div class="modal-fundo" id="modalNumeros">
+<div class="modal-fundo" id="modalNumeros" role="dialog" aria-modal="true" aria-label="Meus números">
 <div class="modal-conteudo">
 <button class="btn-fechar" id="fecharModal" type="button" aria-label="Fechar">×</button>
 <img src="numeros.webp" alt="Meus números da sorte">
+</div>
+</div>
+
+<!-- Confirmação -->
+<div class="modal-fundo" id="modalConfirma" role="dialog" aria-modal="true" aria-labelledby="confTitulo">
+<div class="caixa">
+<h3 id="confTitulo"></h3>
+<p id="confTexto"></p>
+<div class="botoes">
+<button class="sec" id="confNao" type="button">Cancelar</button>
+<button class="perigo" id="confSim" type="button">Apagar</button>
+</div>
 </div>
 </div>
 
@@ -559,9 +583,10 @@ var x = document.createElement('button');
 x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
 x.setAttribute('aria-label', 'Apagar esta aposta salva');
 x.onclick = function(){
-if (!confirm('Apagar esta aposta?')) return;
+perguntar('Apagar esta aposta?', 'Ela sai da lista e não dá para voltar.', 'Apagar', function(){
 var atual = ler(); atual.splice(idx, 1);
 gravar(atual); lista(); aviso('Apagado');
+});
 };
 li.appendChild(x);
 ul.appendChild(li);
@@ -686,8 +711,31 @@ l.unshift({jogos: jogos, em: Date.now()});
 gravar(l.slice(0,20)); lista(); aviso('Salvo');
 };
 $('limpar').onclick = function(){
-if (confirm('Apagar todas as apostas salvas?')){ gravar([]); lista(); }
+perguntar('Apagar todas as apostas?', 'Todas as apostas salvas vão sair da lista. Não dá para voltar.', 'Apagar todas', function(){
+gravar([]); lista(); aviso('Apagado');
+});
 };
+
+// --- Caixa de confirmação (no lugar da janela do sistema) ---
+var conf = $('modalConfirma'), confAcao = null;
+function perguntar(titulo, texto, rotulo, acao){
+$('confTitulo').textContent = titulo;
+$('confTexto').textContent = texto;
+$('confSim').textContent = rotulo;
+confAcao = acao;
+conf.classList.add('ativo');
+$('confNao').focus();
+}
+function fecharConf(){ conf.classList.remove('ativo'); confAcao = null; }
+$('confNao').onclick = fecharConf;
+$('confSim').onclick = function(){ var f = confAcao; fecharConf(); if (f) f(); };
+conf.onclick = function(e){ if (e.target === conf) fecharConf(); };
+// tecla Esc fecha as caixas abertas
+document.addEventListener('keydown', function(e){
+if (e.key !== 'Escape') return;
+fecharConf();
+$('modalNumeros').classList.remove('ativo');
+});
 
 chance(); lista();
 
