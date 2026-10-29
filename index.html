@@ -342,6 +342,7 @@ box-shadow:0 14px 40px rgba(0,0,0,.45);
 .caixa .botoes{display:flex;gap:10px}
 .caixa .botoes button{flex:1}
 button.perigo{background:#b3382c;color:#fff}
+button.ok{background:var(--verde);color:#fff}
 </style>
 </head>
 <body>
@@ -349,7 +350,7 @@ button.perigo{background:#b3382c;color:#fff}
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.25</span></h1>
+<h1>Mega-Sena <span class="versao">v1.26</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -516,7 +517,7 @@ var d = um();
 jogos.push({dez: d, extra: $('optExtra').checked ? sortear(1, d)[0] : null});
 }
 desenhar();
-if (apertado) aviso('Poucas combinações. Pode repetir', 3200);
+if (apertado) informar('Poucas apostas diferentes', 'Com essas opções, quase não há apostas diferentes. Use menos dezenas suas para ter mais variedade.');
 }
 function bola(n, extra, atraso){
 var s = document.createElement('div');
@@ -722,9 +723,21 @@ function perguntar(titulo, texto, rotulo, acao){
 $('confTitulo').textContent = titulo;
 $('confTexto').textContent = texto;
 $('confSim').textContent = rotulo;
+$('confSim').className = 'perigo';
+$('confNao').hidden = false;
 confAcao = acao;
 conf.classList.add('ativo');
 $('confNao').focus();
+}
+function informar(titulo, texto){
+$('confTitulo').textContent = titulo;
+$('confTexto').textContent = texto;
+$('confSim').textContent = 'Entendi';
+$('confSim').className = 'ok';
+$('confNao').hidden = true;
+confAcao = null;
+conf.classList.add('ativo');
+$('confSim').focus();
 }
 function fecharConf(){ conf.classList.remove('ativo'); confAcao = null; }
 $('confNao').onclick = fecharConf;
