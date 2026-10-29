@@ -350,8 +350,8 @@ button.ok{background:var(--verde);color:#fff}
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.26</span></h1>
-<p class="sub">Gera apostas de 6 dezenas + coringa</p>
+<h1>Mega-Sena <span class="versao">v1.27</span></h1>
+<p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
 
@@ -382,7 +382,11 @@ button.ok{background:var(--verde);color:#fff}
 </label>
 <label class="op">
 <input type="checkbox" id="optExtra" checked>
-<div><b>Incluir meu coringa (27)</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
+<div><b>Mostrar dezena extra</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
+</label>
+<label class="op">
+<input type="checkbox" id="optCoringa">
+<div><b>Usar o 27 como extra</b><span>É o seu coringa. Se desligar, a extra é sorteada</span></div>
 </label>
 <label class="op">
 <input type="checkbox" id="optComum" checked>
@@ -429,11 +433,11 @@ var $ = function(id){return document.getElementById(id)};
 var CHAVE = 'megasena_salvos_v1';
 var CFG = 'megasena_cfg_v1';
 var MINHAS = [5,17,23,36,38,44];               // suas 6 dezenas fortes
-var CORINGA = 27;                              // sua 7ª dezena: sempre a extra
-var QUENTES_FIXA = [4,10,30,32,33,34,35,37,53]; // reserva (10): mais sorteadas no histórico geral, fora as suas
+var CORINGA = 27;                              // seu coringa: extra fixa, se a opção estiver ligada
+var QUENTES_FIXA = [4,10,27,30,32,33,34,35,37,53]; // reserva (10): mais sorteadas no histórico geral, fora as suas
 var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
 var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
-var HIST = 'megasena_hist_v3';
+var HIST = 'megasena_hist_v4';
 var jogos = null; // [{dez:[], extra:n|null}, {dez:[], extra:n|null}]
 var vistos = {}; // jogos já gerados nesta sessão
 
@@ -487,21 +491,23 @@ out.push(pool.splice(k,1)[0]);
 return out;
 }
 function montar(){
-if (!$('optMinhas').checked) return sortear(6, [CORINGA]);
+if (!$('optMinhas').checked) return sortear(6, usaCoringa() ? [CORINGA] : null);
 var k = +$('qtdMinhas').value;
 var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
 
 var resto = 6 - k, extras;
 if ($('optQuentes').checked){
 // Sorteia as dezenas que faltam só entre as mais sorteadas (sem repetir)
-var bolo = QUENTES.filter(function(n, i, a){return a.indexOf(n) === i && minhas.indexOf(n) < 0});
+var bolo = QUENTES.filter(function(n, i, a){return a.indexOf(n) === i && minhas.indexOf(n) < 0 && !(usaCoringa() && n === CORINGA)});
 extras = escolher(bolo, resto);
 } else {
 // Se desligar as quentes, sorteia de 1 a 60, sem usar mais nenhuma das suas
-extras = sortear(resto, MINHAS.concat(CORINGA));
+extras = sortear(resto, usaCoringa() ? MINHAS.concat(CORINGA) : MINHAS);
 }
 return minhas.concat(extras).sort(function(a,b){return a-b});
 }
+function usaCoringa(){ return $('optExtra').checked && $('optCoringa').checked; }
+function extraDe(d){ return usaCoringa() ? CORINGA : sortear(1, d)[0]; }
 var apertado = false;
 function um(){
 var d, t = 0;
@@ -515,7 +521,7 @@ function gerar(){
 jogos = []; apertado = false;
 for (var i = 0; i < 2; i++){
 var d = um();
-jogos.push({dez: d, extra: $('optExtra').checked ? CORINGA : null});
+jogos.push({dez: d, extra: $('optExtra').checked ? extraDe(d) : null, c: usaCoringa()});
 }
 desenhar();
 if (apertado) informar('Poucas apostas diferentes', 'Com essas opções, quase não há apostas diferentes. Use menos dezenas suas para ter mais variedade.');
@@ -531,7 +537,7 @@ function desenhar(){
 var c = $('jogos'); c.innerHTML = '';
 jogos.forEach(function(j, g){
 var bloco = document.createElement('div'); bloco.className = 'jogo';
-var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas' + (j.extra != null ? ' + <b class="palavra-extra">coringa</b>' : '');
+var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas' + (j.extra != null ? ' + <b class="palavra-extra">' + (j.c ? 'coringa' : 'extra') + '</b>' : '');
 var b = document.createElement('div'); b.className = 'bolas';
 
 // Junta dezenas + extra (se houver) e ordena
@@ -615,7 +621,7 @@ $('chance').innerHTML =
 function fmt(l){return l.map(function(n){return (n<10?'0':'')+n}).join(' ')}
 function mostrarQuentes(rotulo){
 $('fonteQuentes').textContent = rotulo;
-$('listaQuentes').textContent = fmt(QUENTES);
+$('listaQuentes').textContent = fmt(QUENTES.filter(function(n){return !(usaCoringa() && n === CORINGA)}));
 }
 // conta as dezenas dos últimos 5 anos; devolve as 10 que mais saíram (fora as suas)
 function calcular(lista){
@@ -630,7 +636,7 @@ c[2].forEach(function(x){ x = +x; if (x >= 1 && x <= 60) cont[x] = (cont[x] || 0
 });
 if (n < 300) return null;
 var top = Object.keys(cont).map(Number)
-.filter(function(x){return MINHAS.indexOf(x) < 0 && x !== CORINGA})
+.filter(function(x){return MINHAS.indexOf(x) < 0})
 .sort(function(a,b){return cont[b] - cont[a] || a - b})
 .slice(0,10).sort(function(a,b){return a - b});
 return top.length === 10 ? top : null;
@@ -662,13 +668,14 @@ if (c.minhas != null) $('optMinhas').checked = c.minhas;
 if (c.quentes != null) $('optQuentes').checked = c.quentes;
 if (c.extra != null) $('optExtra').checked = c.extra;
 if (c.comum != null) $('optComum').checked = c.comum;
+if (c.coringa != null) $('optCoringa').checked = c.coringa;
 if (c.qtd) $('qtdMinhas').value = c.qtd;
 } catch(e){}
 }
 function salvarCfg(){
 try { localStorage.setItem(CFG, JSON.stringify({
 minhas: $('optMinhas').checked, quentes: $('optQuentes').checked, qtd: $('qtdMinhas').value,
-extra: $('optExtra').checked, comum: $('optComum').checked
+extra: $('optExtra').checked, comum: $('optComum').checked, coringa: $('optCoringa').checked
 })); } catch(e){}
 }
 function atualizaOpcoes(){
@@ -676,6 +683,7 @@ var on = $('optMinhas').checked;
 var k = +$('qtdMinhas').value;
 $('qtdMinhas').disabled = !on;
 $('optQuentes').disabled = !on || k >= 6;
+$('optCoringa').disabled = !$('optExtra').checked;
 salvarCfg();
 }
 ['optMinhas','optQuentes','qtdMinhas'].forEach(function(id){ $(id).onchange = atualizaOpcoes; });
@@ -690,12 +698,22 @@ salvarCfg();
 chance();
 if (jogos){
 var on = this.checked;
+if (usaCoringa() && jogos.some(function(j){ return j.dez.indexOf(CORINGA) >= 0; })){ atualizaOpcoes(); mostrarQuentes($('fonteQuentes').textContent); gerar(); return; }
 jogos.forEach(function(j){
-if (on && j.extra == null) j.extra = CORINGA;
+if (on && j.extra == null){ j.extra = extraDe(j.dez); j.c = usaCoringa(); }
 if (!on) j.extra = null;
 });
 desenhar();
 }
+atualizaOpcoes(); mostrarQuentes($('fonteQuentes').textContent);
+};
+$('optCoringa').onchange = function(){
+salvarCfg();
+mostrarQuentes($('fonteQuentes').textContent);
+if (!jogos || !$('optExtra').checked) return;
+if (usaCoringa() && jogos.some(function(j){ return j.dez.indexOf(CORINGA) >= 0; })){ gerar(); return; }
+jogos.forEach(function(j){ j.extra = extraDe(j.dez); j.c = usaCoringa(); });
+desenhar();
 };
 $('copiar').onclick = function(){
 if (!jogos) return;
