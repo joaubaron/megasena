@@ -337,7 +337,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.17</span></h1>
+<h1>Mega-Sena <span class="versao">v1.20</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -380,7 +380,7 @@ border: 2px solid var(--papel);
 <div class="chance" id="chance"></div>
 <p class="aviso">O sorteio é pura sorte. Nenhuma aposta, nem a das mais sorteadas, tem mais chance que outra</p>
 
-<h2>Apostas salvas</h2>
+<h2 id="tituloSalvas" hidden>Apostas salvas</h2>
 <ul class="hist" id="hist"></ul>
 <div class="rodape-botoes">
 <button class="btn-rodape" id="limpar" type="button" disabled>Apagar todas</button>
@@ -478,20 +478,23 @@ extras = sortear(resto, minhas);
 }
 return minhas.concat(extras).sort(function(a,b){return a-b});
 }
+var apertado = false;
 function um(){
 var d, t = 0;
 do { d = montar(); t++; }
 while (((($('optComum').checked && comum(d))) || vistos[d.join('-')]) && t < 500);
+if (vistos[d.join('-')] || ($('optComum').checked && comum(d))) apertado = true;
 vistos[d.join('-')] = 1;
 return d;
 }
 function gerar(){
-jogos = [];
+jogos = []; apertado = false;
 for (var i = 0; i < 2; i++){
 var d = um();
 jogos.push({dez: d, extra: $('optExtra').checked ? sortear(1, d)[0] : null});
 }
 desenhar();
+if (apertado) aviso('Poucas combinações. Pode repetir', 3200);
 }
 function bola(n, extra, atraso){
 var s = document.createElement('div');
@@ -504,7 +507,7 @@ function desenhar(){
 var c = $('jogos'); c.innerHTML = '';
 jogos.forEach(function(j, g){
 var bloco = document.createElement('div'); bloco.className = 'jogo';
-var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas + <b class="palavra-extra">extra</b>';
+var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas' + (j.extra != null ? ' + <b class="palavra-extra">extra</b>' : '');
 var b = document.createElement('div'); b.className = 'bolas';
 
 // Junta dezenas + extra (se houver) e ordena
@@ -534,9 +537,9 @@ return (j.extra != null && n === j.extra) ? f(n) + '*' : f(n);
 function txt(l){
 return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j); }).join('\n');
 }
-function aviso(m){
+function aviso(m, ms){
 var t = $('toast'); t.textContent = m; t.classList.add('on');
-clearTimeout(aviso.t); aviso.t = setTimeout(function(){t.classList.remove('on')}, 1800);
+clearTimeout(aviso.t); aviso.t = setTimeout(function(){t.classList.remove('on')}, ms || 1800);
 }
 function ler(){ try { return JSON.parse(localStorage.getItem(CHAVE)) || []; } catch(e){ return []; } }
 function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); } catch(e){} }
@@ -566,6 +569,7 @@ li.appendChild(x);
 ul.appendChild(li);
 });
 $('limpar').disabled = l.length === 0;
+$('tituloSalvas').hidden = l.length === 0;
 }
 function chance(){
 $('chance').innerHTML =
@@ -631,12 +635,15 @@ try {
 var c = JSON.parse(localStorage.getItem(CFG)) || {};
 if (c.minhas != null) $('optMinhas').checked = c.minhas;
 if (c.quentes != null) $('optQuentes').checked = c.quentes;
+if (c.extra != null) $('optExtra').checked = c.extra;
+if (c.comum != null) $('optComum').checked = c.comum;
 if (c.qtd) $('qtdMinhas').value = c.qtd;
 } catch(e){}
 }
 function salvarCfg(){
 try { localStorage.setItem(CFG, JSON.stringify({
-minhas: $('optMinhas').checked, quentes: $('optQuentes').checked, qtd: $('qtdMinhas').value
+minhas: $('optMinhas').checked, quentes: $('optQuentes').checked, qtd: $('qtdMinhas').value,
+extra: $('optExtra').checked, comum: $('optComum').checked
 })); } catch(e){}
 }
 function atualizaOpcoes(){
@@ -647,12 +654,14 @@ $('optQuentes').disabled = !on || k >= 6;
 salvarCfg();
 }
 ['optMinhas','optQuentes','qtdMinhas'].forEach(function(id){ $(id).onchange = atualizaOpcoes; });
-$('listaMinhas').textContent = fmt(MINHAS) + " (e o 27 como extra)";
+$('listaMinhas').textContent = fmt(MINHAS) + " (e o 27 como reserva)";
 $('listaQuentes').textContent = fmt(QUENTES);
 lerCfg(); atualizaOpcoes(); historico();
 
 $('gerar').onclick = gerar;
+$('optComum').onchange = salvarCfg;
 $('optExtra').onchange = function(){
+salvarCfg();
 chance();
 if (jogos){
 var on = this.checked;
@@ -671,7 +680,11 @@ var t = txt(jogos);
 };
 $('salvar').onclick = function(){
 if (!jogos) return;
-var l = ler(); l.unshift({jogos: jogos, em: Date.now()});
+var l = ler();
+var igual = function(js){ return js.map(txt1).join('|'); };
+var atual = igual(jogos);
+if (l.some(function(it){ return igual(it.jogos || [it]) === atual; })){ aviso('Já está salva'); return; }
+l.unshift({jogos: jogos, em: Date.now()});
 gravar(l.slice(0,20)); lista(); aviso('Salvo');
 };
 $('limpar').onclick = function(){
