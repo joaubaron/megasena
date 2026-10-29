@@ -1,6 +1,6 @@
 // Service Workers
 // A versão é atualizada automaticamente pelo deploy.yml
-const CACHE_VERSION = '29.10.2026-1256'; // O robô vai mudar isso
+const CACHE_VERSION = '29.10.2026-1242'; // O robô vai mudar isso
 const CACHE_NAME = `megasena-${CACHE_VERSION}`;
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
 
@@ -26,7 +26,7 @@ self.addEventListener('fetch', function(e){
 
   // ESTRATÉGIA NETWORK FIRST: Tenta a rede, se falhar (offline) usa o cache.
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, {cache: 'no-cache'})
       .then(function(response){
         // Se a resposta for boa, salva no cache para uso offline futuro
         if (response && response.status === 200) {
@@ -38,7 +38,7 @@ self.addEventListener('fetch', function(e){
         return response;
       })
       .catch(function(){
-        return caches.match(e.request);
+        return caches.match(e.request, {ignoreSearch: true});
       })
   );
 });
