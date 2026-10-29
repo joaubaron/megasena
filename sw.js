@@ -6,7 +6,7 @@ const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './ic
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(ASSETS)}));
-  self.skipWaiting(); // Força o novo SW a instalar imediatamente
+  // Linha removida
 });
 
 self.addEventListener('activate', function(e){
