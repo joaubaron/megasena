@@ -351,7 +351,7 @@ button.ok{background:var(--verde);color:#fff}
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
 <h1>Mega-Sena <span class="versao">v1.26</span></h1>
-<p class="sub">Gera apostas de 6 dezenas + extra</p>
+<p class="sub">Gera apostas de 6 dezenas + coringa</p>
 </div>
 </div>
 
@@ -382,7 +382,7 @@ button.ok{background:var(--verde);color:#fff}
 </label>
 <label class="op">
 <input type="checkbox" id="optExtra" checked>
-<div><b>Mostrar dezena extra</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
+<div><b>Incluir meu coringa (27)</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
 </label>
 <label class="op">
 <input type="checkbox" id="optComum" checked>
@@ -429,10 +429,11 @@ var $ = function(id){return document.getElementById(id)};
 var CHAVE = 'megasena_salvos_v1';
 var CFG = 'megasena_cfg_v1';
 var MINHAS = [5,17,23,36,38,44];               // suas 6 dezenas fortes
-var QUENTES_FIXA = [4,10,27,30,32,33,34,35,37,53]; // reserva (10): mais sorteadas no histórico geral, fora as suas
+var CORINGA = 27;                              // sua 7ª dezena: sempre a extra
+var QUENTES_FIXA = [4,10,30,32,33,34,35,37,53]; // reserva (10): mais sorteadas no histórico geral, fora as suas
 var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
 var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
-var HIST = 'megasena_hist_v2';
+var HIST = 'megasena_hist_v3';
 var jogos = null; // [{dez:[], extra:n|null}, {dez:[], extra:n|null}]
 var vistos = {}; // jogos já gerados nesta sessão
 
@@ -486,7 +487,7 @@ out.push(pool.splice(k,1)[0]);
 return out;
 }
 function montar(){
-if (!$('optMinhas').checked) return sortear(6);
+if (!$('optMinhas').checked) return sortear(6, [CORINGA]);
 var k = +$('qtdMinhas').value;
 var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
 
@@ -497,7 +498,7 @@ var bolo = QUENTES.filter(function(n, i, a){return a.indexOf(n) === i && minhas.
 extras = escolher(bolo, resto);
 } else {
 // Se desligar as quentes, sorteia de 1 a 60, sem usar mais nenhuma das suas
-extras = sortear(resto, MINHAS);
+extras = sortear(resto, MINHAS.concat(CORINGA));
 }
 return minhas.concat(extras).sort(function(a,b){return a-b});
 }
@@ -514,10 +515,10 @@ function gerar(){
 jogos = []; apertado = false;
 for (var i = 0; i < 2; i++){
 var d = um();
-jogos.push({dez: d, extra: $('optExtra').checked ? sortear(1, d)[0] : null});
+jogos.push({dez: d, extra: $('optExtra').checked ? CORINGA : null});
 }
 desenhar();
-if (apertado) informar('Apostas muito parecidas', 'Use menos das suas dezenas para variar');
+if (apertado) informar('Poucas apostas diferentes', 'Com essas opções, quase não há apostas diferentes. Use menos dezenas suas para ter mais variedade.');
 }
 function bola(n, extra, atraso){
 var s = document.createElement('div');
@@ -530,7 +531,7 @@ function desenhar(){
 var c = $('jogos'); c.innerHTML = '';
 jogos.forEach(function(j, g){
 var bloco = document.createElement('div'); bloco.className = 'jogo';
-var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas' + (j.extra != null ? ' + <b class="palavra-extra">extra</b>' : '');
+var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas' + (j.extra != null ? ' + <b class="palavra-extra">coringa</b>' : '');
 var b = document.createElement('div'); b.className = 'bolas';
 
 // Junta dezenas + extra (se houver) e ordena
@@ -629,7 +630,7 @@ c[2].forEach(function(x){ x = +x; if (x >= 1 && x <= 60) cont[x] = (cont[x] || 0
 });
 if (n < 300) return null;
 var top = Object.keys(cont).map(Number)
-.filter(function(x){return MINHAS.indexOf(x) < 0})
+.filter(function(x){return MINHAS.indexOf(x) < 0 && x !== CORINGA})
 .sort(function(a,b){return cont[b] - cont[a] || a - b})
 .slice(0,10).sort(function(a,b){return a - b});
 return top.length === 10 ? top : null;
@@ -690,7 +691,7 @@ chance();
 if (jogos){
 var on = this.checked;
 jogos.forEach(function(j){
-if (on && j.extra == null) j.extra = sortear(1, j.dez)[0];
+if (on && j.extra == null) j.extra = CORINGA;
 if (!on) j.extra = null;
 });
 desenhar();
@@ -712,7 +713,7 @@ l.unshift({jogos: jogos, em: Date.now()});
 gravar(l.slice(0,20)); lista(); aviso('Salvo');
 };
 $('limpar').onclick = function(){
-perguntar('Apagar todas as apostas?', 'Todas as apostas salvas vão sair da lista. Não dá para voltar.', 'Apagar', function(){
+perguntar('Apagar todas as apostas?', 'Todas as apostas salvas vão sair da lista. Não dá para voltar.', 'Apagar todas', function(){
 gravar([]); lista(); aviso('Apagado');
 });
 };
