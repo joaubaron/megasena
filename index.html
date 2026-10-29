@@ -171,11 +171,11 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
 <body>
 <main>
   <h1>Gerador Mega-Sena</h1>
-  <p class="sub">2 jogos de 6 dezenas. Extra, se quiser.</p>
+  <p class="sub">2 apostas de 6 dezenas. Extra, se quiser.</p>
 
   <section class="painel" aria-live="polite">
-    <div id="jogos"><p class="vazio">Toque em “Gerar 2 jogos”.</p></div>
-    <button class="gerar" id="gerar">Gerar 2 jogos</button>
+    <div id="jogos"><p class="vazio">Toque em “Gerar 2 apostas”.</p></div>
+    <button class="gerar" id="gerar">Gerar 2 apostas</button>
     <div class="acoes">
       <button class="sec" id="copiar" disabled>Copiar</button>
       <button class="sec" id="salvar" disabled>Salvar</button>
@@ -185,10 +185,10 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
   <div class="opcoes">
     <label class="op">
       <input type="checkbox" id="optMinhas" checked>
-      <div><b>Usar minhas dezenas</b><span>Cada jogo leva algumas das suas: <span id="listaMinhas"></span></span></div>
+      <div><b>Usar minhas dezenas</b><span>Cada aposta leva algumas das suas: <span id="listaMinhas"></span></span></div>
     </label>
     <div class="linha">
-      <label for="qtdMinhas"><b>Quantas das suas por jogo</b></label>
+      <label for="qtdMinhas"><b>Quantas das suas por aposta</b></label>
       <select id="qtdMinhas">
         <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
         <option value="4">4</option><option value="5">5</option>
@@ -200,20 +200,20 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
     </label>
     <label class="op">
       <input type="checkbox" id="optExtra" checked>
-      <div><b>Mostrar dezena extra</b><span>Se usar, o jogo passa a ter 7 dezenas e custa 7 vezes mais.</span></div>
+      <div><b>Mostrar dezena extra</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais.</span></div>
     </label>
     <label class="op">
       <input type="checkbox" id="optComum" checked>
-      <div><b>Evitar jogos comuns</b><span>Como 1-2-3 ou só datas. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio.</span></div>
+      <div><b>Evitar apostas comuns</b><span>Como 1-2-3 ou só datas. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio.</span></div>
     </label>
   </div>
 
   <div class="chance" id="chance"></div>
-  <p class="aviso">O sorteio é pura sorte. Nenhum jogo, nem o das mais sorteadas, tem mais chance que outro.</p>
+  <p class="aviso">O sorteio é pura sorte. Nenhuma aposta, nem a das mais sorteadas, tem mais chance que outra.</p>
 
-  <h2>Jogos salvos</h2>
+  <h2>Apostas salvas</h2>
   <ul class="hist" id="hist"></ul>
-  <button class="limpar" id="limpar" hidden>Apagar todos</button>
+  <button class="limpar" id="limpar" hidden>Apagar todas</button>
 </main>
 <div class="toast" id="toast" role="status"></div>
 
@@ -340,9 +340,9 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
       }).join('<br>') + '<small>' + new Date(item.em).toLocaleDateString('pt-BR') + '</small>';
       var x = document.createElement('button');
       x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
-      x.setAttribute('aria-label', 'Apagar este jogo salvo');
+      x.setAttribute('aria-label', 'Apagar esta aposta salva');
       x.onclick = function(){
-        if (!confirm('Apagar este jogo?')) return;
+        if (!confirm('Apagar esta aposta?')) return;
         var atual = ler(); atual.splice(idx, 1);
         gravar(atual); lista(); aviso('Apagado');
       };
@@ -353,8 +353,8 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
   }
   function chance(){
     var usa = $('optExtra').checked;
-    $('chance').innerHTML = '<b>2 jogos de 6:</b> 1 chance em 25.031.930' + (usa
-      ? '<br><b>1 jogo de 7:</b> 1 chance em 7.151.980 (custa 7 vezes mais)' : '');
+    $('chance').innerHTML = '<b>2 apostas de 6:</b> 1 chance em 25.031.930' + (usa
+      ? '<br><b>1 aposta de 7:</b> 1 chance em 7.151.980 (custa 7 vezes mais)' : '');
   }
 
   function fmt(l){return l.map(function(n){return (n<10?'0':'')+n}).join(' ')}
@@ -448,7 +448,7 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
     gravar(l.slice(0,20)); lista(); aviso('Salvo');
   };
   $('limpar').onclick = function(){
-    if (confirm('Apagar todos os jogos salvos?')){ gravar([]); lista(); }
+    if (confirm('Apagar todas as apostas salvas?')){ gravar([]); lista(); }
   };
 
   chance(); lista();
