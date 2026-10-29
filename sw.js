@@ -1,12 +1,12 @@
 // Service Workers
 // A versão é atualizada automaticamente pelo deploy.yml
-const CACHE_VERSION = '29.10.2026-1214'; // O robô vai mudar isso
+const CACHE_VERSION = '29.10.2026-1133'; // O robô vai mudar isso
 const CACHE_NAME = `megasena-${CACHE_VERSION}`;
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(ASSETS)}));
-  self.skipWaiting();
+  self.skipWaiting(); // Força o novo SW a instalar imediatamente
 });
 
 self.addEventListener('activate', function(e){
