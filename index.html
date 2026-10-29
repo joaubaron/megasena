@@ -46,7 +46,7 @@ border-radius:0 0 30px 30px;
 }
 main{max-width:480px;margin:0 auto}
 
-/* --- NOVO CABEÇALHO COM LOGO --- */
+/* --- CABEÇALHO COM LOGO --- */
 .cabecalho {
 display: flex;
 align-items: center;
@@ -59,7 +59,7 @@ width: 64px;
 height: 64px;
 object-fit: contain;
 flex-shrink: 0;
-border-radius: 12px; /* Bordas arredondadas na logo */
+border-radius: 12px;
 }
 
 .cabecalho .textos {
@@ -213,13 +213,13 @@ border-bottom-width:2px;
 .chance .preco{font-weight:700}
 .chance .chance-val{color:var(--suave)}
 
-/* ▼▼▼ NOVO: 2 linhas verticais separando as 3 colunas ▼▼▼ */
+/* 2 linhas verticais separando as 3 colunas */
 .chance th:not(:last-child),
 .chance td:not(:last-child){
 border-right:1px solid rgba(224,168,46,.35);
 }
 .chance thead th:not(:last-child){
-border-right-width:2px; /* cabeçalho com linha mais forte, igual ao border-bottom */
+border-right-width:2px;
 }
 
 .aviso{color:var(--suave);font-size:.9rem;margin:14px 6px 0}
@@ -239,7 +239,6 @@ color:#b3382c;border:1.5px solid rgba(179,56,44,.4);
 .hist .ex{color:#b9831a;font-weight:800}
 @media (prefers-color-scheme:dark){.hist .ex{color:var(--ouro)}}
 .hist small{display:block;color:var(--suave);font-weight:400;letter-spacing:0;margin-top:2px}
-.limpar{margin-top:12px;background:transparent;color:var(--suave);text-decoration:underline;padding:8px 0;min-height:auto}
 .toast{
 position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);
 background:var(--texto);color:var(--fundo);padding:11px 18px;border-radius:999px;font-size:.95rem;font-weight:600;
@@ -255,49 +254,38 @@ background:rgba(255,255,255,.2);
 vertical-align:middle;
 }
 
-/* --- ESTILOS DO RODAPÉ E MODAL --- */
-.rodape-botoes {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-top: 16px;
-width: 100%;
-flex-wrap: nowrap; /* Proíbe terminantemente de quebrar a linha */
+/* --- RODAPÉ: 2 BOTÕES NA MESMA LINHA, MESMO ESTILO --- */
+.rodape-botoes{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+margin-top:16px;
+width:100%;
+}
+.btn-rodape{
+background:transparent;
+border:0;
+color:var(--verde);
+font:inherit;
+font-size:1rem;
+font-weight:700;
+text-decoration:none;
+padding:12px 4px;
+min-height:44px;
+cursor:pointer;
+white-space:nowrap;
+}
+@media (prefers-color-scheme:dark){
+.btn-rodape{color:#5fd3a2}
 }
 
-.limpar {
-margin: 0 !important;
-padding: 8px 0;
-background: transparent;
-color: var(--suave);
-text-decoration: underline;
-border: none;
-font-size: 0.95rem;
-}
-
-.btn-meus-numeros {
-background: transparent;
-color: var(--verde);
-text-decoration: none !important; /* Arranca o sublinhado à força */
-padding: 8px 0;
-margin: 0 !important;
-font-weight: 700;
-font-size: 1rem;
-border: none;
-cursor: pointer;
-display: inline-block;
-}
-
-.btn-meus-numeros:hover {
-color: var(--verde3);
-}
-
-/* Fundo escuro do Modal */
+/* --- MODAL --- */
 .modal-fundo {
 position: fixed;
 top: 0; left: 0; right: 0; bottom: 0;
 background: rgba(0,0,0,0.75);
-display: none; /* Escondido por padrão */
+display: none;
 align-items: center;
 justify-content: center;
 z-index: 999;
@@ -332,6 +320,8 @@ color: #fff;
 border-radius: 50%;
 width: 36px;
 height: 36px;
+padding: 0;
+min-height: 0;
 font-size: 1.2rem;
 display: flex;
 align-items: center;
@@ -347,7 +337,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.16</span></h1>
+<h1>Mega-Sena <span class="versao">v1.17</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -393,15 +383,15 @@ border: 2px solid var(--papel);
 <h2>Apostas salvas</h2>
 <ul class="hist" id="hist"></ul>
 <div class="rodape-botoes">
-<button class="limpar" id="limpar" hidden>Apagar todas</button>
-<button class="btn-meus-numeros" id="btnMeusNumeros" style="margin-left: auto;">Meus números</button>
+<button class="btn-rodape" id="limpar" type="button" disabled>Apagar todas</button>
+<button class="btn-rodape" id="btnMeusNumeros" type="button">Meus números</button>
 </div>
 </main>
 
 <!-- Modal Meus Números -->
 <div class="modal-fundo" id="modalNumeros">
 <div class="modal-conteudo">
-<button class="btn-fechar" id="fecharModal">×</button>
+<button class="btn-fechar" id="fecharModal" type="button" aria-label="Fechar">×</button>
 <img src="numeros.webp" alt="Meus números da sorte">
 </div>
 </div>
@@ -575,7 +565,7 @@ gravar(atual); lista(); aviso('Apagado');
 li.appendChild(x);
 ul.appendChild(li);
 });
-$('limpar').hidden = l.length === 0;
+$('limpar').disabled = l.length === 0;
 }
 function chance(){
 $('chance').innerHTML =
