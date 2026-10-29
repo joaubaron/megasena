@@ -52,29 +52,29 @@ h1{font-size:1.65rem;font-weight:800;letter-spacing:-.01em;margin:6px 0 2px;colo
   background:var(--papel);border:1px solid var(--linha);border-radius:24px;
   padding:22px 16px 16px;box-shadow:var(--sombra);
 }
-.bolas{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;min-height:62px;align-items:center}
+.bolas{display:flex;flex-wrap:nowrap;gap:6px;justify-content:center;align-items:center;container-type:inline-size}
 
 /* bola de sorteio: esfera verde com miolo branco */
 .bola{
   position:relative;isolation:isolate;
-  width:56px;height:56px;border-radius:50%;
+  width:auto;height:auto;flex:0 1 50px;min-width:0;aspect-ratio:1;border-radius:50%;
   display:grid;place-items:center;
-  font-size:1.2rem;font-weight:800;color:var(--verde3);
+  font-size:min(1.1rem,4.6cqw);font-weight:800;color:var(--verde3);
   font-variant-numeric:tabular-nums;
   background:radial-gradient(circle at 32% 26%,#46c995 0,var(--verde2) 32%,var(--verde) 72%,var(--verde3) 100%);
   box-shadow:0 7px 10px -5px rgba(10,60,40,.55),inset 0 -4px 7px rgba(0,0,0,.2);
   animation:cai .5s cubic-bezier(.34,1.56,.64,1) backwards;
 }
 .bola::before{
-  content:"";position:absolute;z-index:-1;inset:10px;border-radius:50%;
+  content:"";position:absolute;z-index:-1;inset:18%;border-radius:50%;
   background:#fff;box-shadow:inset 0 1px 3px rgba(0,0,0,.16);
 }
 .bola::after{
-  content:"";position:absolute;top:5px;left:11px;width:15px;height:8px;border-radius:50%;
+  content:"";position:absolute;top:9%;left:20%;width:28%;height:15%;border-radius:50%;
   background:rgba(255,255,255,.6);transform:rotate(-28deg);filter:blur(1px);pointer-events:none;
 }
 .bola.extra{
-  color:#6b4a00;
+  color:#6b4a00;margin-left:5px;outline:2px dashed var(--ouro);outline-offset:2px;
   background:radial-gradient(circle at 32% 26%,#fbe39a 0,#efc552 32%,var(--ouro) 72%,#b9831a 100%);
   box-shadow:0 7px 10px -5px rgba(120,80,0,.55),inset 0 -4px 7px rgba(0,0,0,.18);
 }
@@ -89,9 +89,6 @@ h1{font-size:1.65rem;font-weight:800;letter-spacing:-.01em;margin:6px 0 2px;colo
 .jogo + .jogo{border-top:2px dashed var(--linha);margin-top:18px;padding-top:18px}
 .titulo{margin:0 0 12px;font-weight:800;text-align:center;color:var(--verde)}
 @media (prefers-color-scheme:dark){.titulo{color:var(--verde2)}}
-.rotulo-extra{color:var(--suave);font-size:.9rem}
-.extra-linha{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:14px}
-.extra-linha .bola{outline:2px dashed var(--ouro);outline-offset:4px}
 
 button{
   font:inherit;font-weight:700;border:0;border-radius:14px;cursor:pointer;
@@ -152,6 +149,13 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
   background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:12px 14px;
   font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums;
 }
+.hist li{position:relative;padding-right:96px}
+.hist .del{
+  position:absolute;top:10px;right:10px;min-height:40px;padding:6px 14px;
+  font-size:.9rem;border-radius:12px;background:transparent;
+  color:#b3382c;border:1.5px solid rgba(179,56,44,.4);
+}
+@media (prefers-color-scheme:dark){.hist .del{color:#ff9a8f;border-color:rgba(255,154,143,.45)}}
 .hist .ex{color:#b9831a;font-weight:800}
 @media (prefers-color-scheme:dark){.hist .ex{color:var(--ouro)}}
 .hist small{display:block;color:var(--suave);font-weight:400;letter-spacing:0;margin-top:2px}
@@ -305,12 +309,7 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
       var b = document.createElement('div'); b.className = 'bolas';
       j.dez.forEach(function(n,i){ b.appendChild(bola(n,false,g*500 + i*70)); });
       bloco.appendChild(t); bloco.appendChild(b);
-      if (j.extra != null){
-        var e = document.createElement('div'); e.className = 'extra-linha';
-        var r = document.createElement('span'); r.className = 'rotulo-extra'; r.textContent = 'Extra (opcional)';
-        e.appendChild(r); e.appendChild(bola(j.extra,true,g*500 + 6*70));
-        bloco.appendChild(e);
-      }
+      if (j.extra != null) b.appendChild(bola(j.extra,true,g*500 + 6*70));
       c.appendChild(bloco);
     });
     $('copiar').disabled = false; $('salvar').disabled = false;
@@ -332,13 +331,22 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
   function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); } catch(e){} }
   function lista(){
     var l = ler(), ul = $('hist'); ul.innerHTML = '';
-    l.forEach(function(item){
+    l.forEach(function(item, idx){
       var li = document.createElement('li');
       var f = function(n){return (n<10?'0':'')+n};
       var js = item.jogos || [item];
       li.innerHTML = js.map(function(j){
         return j.dez.map(f).join(' ') + (j.extra != null ? ' <span class="ex">+ ' + f(j.extra) + '</span>' : '');
       }).join('<br>') + '<small>' + new Date(item.em).toLocaleDateString('pt-BR') + '</small>';
+      var x = document.createElement('button');
+      x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
+      x.setAttribute('aria-label', 'Apagar este jogo salvo');
+      x.onclick = function(){
+        if (!confirm('Apagar este jogo?')) return;
+        var atual = ler(); atual.splice(idx, 1);
+        gravar(atual); lista(); aviso('Apagado');
+      };
+      li.appendChild(x);
       ul.appendChild(li);
     });
     $('limpar').hidden = l.length === 0;
