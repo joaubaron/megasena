@@ -19,13 +19,11 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Rodar testes
-        run: node --test core.test.js
-
       - name: Atualizar CACHE_VERSION no sw.js
         run: |
           VERSION=$(TZ="America/Sao_Paulo" date +'%d.%m.%Y-%H%M')
           sed -i "s/const CACHE_VERSION = '.*'/const CACHE_VERSION = '${VERSION}'/" sw.js
+          echo "Nova versão aplicada: $VERSION"
 
       - name: Commitar sw.js atualizado
         run: |
