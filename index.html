@@ -261,7 +261,7 @@ vertical-align:middle;
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.13</span></h1>
+<h1>Mega-Sena <span class="versao">v1.14</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -315,7 +315,8 @@ vertical-align:middle;
 var $ = function(id){return document.getElementById(id)};
 var CHAVE = 'megasena_salvos_v1';
 var CFG = 'megasena_cfg_v1';
-var MINHAS = [5,17,23,27,36,38,44];            // suas dezenas fixas
+var MINHAS = [5,17,23,36,38,44];               // suas 6 dezenas fortes (sem o 27)
+var CORINGA = [27];                            // o 27 fica reservado aqui
 var QUENTES_FIXA = [4,10,30,32,33,34,37,53];   // reserva: mais sorteadas no histórico (fora as suas)
 var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
 var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
@@ -365,14 +366,7 @@ if (ok) return true;
 return false;
 }
 function escolher(lista, n){
-// Se a lista for a das suas dezenas e o 27 estiver nela, fazemos um filtro rígido
-var base = lista.slice();
-if (base.indexOf(27) > -1 && n <= 5) {   // <--- MUDANÇA AQUI (de < base.length para <= 5)
-// Remove o 27 da lista de opções SE pedirmos até 5 dezenas
-base = base.filter(function(x){ return x !== 27; });
-}
-
-var pool = base.slice(), out = [];
+var pool = lista.slice(), out = [];
 while (out.length < n && pool.length){
 var k = rnd(pool.length);
 out.push(pool.splice(k,1)[0]);
@@ -382,11 +376,16 @@ return out;
 function montar(){
 if (!$('optMinhas').checked) return sortear(6);
 var k = +$('qtdMinhas').value;
-var minhas = escolher(MINHAS, k);
+var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
+
 var resto = 6 - k, extras;
 if ($('optQuentes').checked){
-extras = escolher(QUENTES.filter(function(n){return minhas.indexOf(n) < 0}), resto);
+// Junta as QUENTES com o CORINGA (27) no mesmo bolo de reservas
+var boloReservas = QUENTES.concat(CORINGA);
+// Sorteia as dezenas que faltam desse bolo, excluindo as que já foram escolhidas nas suas
+extras = escolher(boloReservas.filter(function(n){return minhas.indexOf(n) < 0}), resto);
 } else {
+// Se desligar as quentes, o 27 está no sorteio geral (1 a 60)
 extras = sortear(resto, minhas);
 }
 return minhas.concat(extras).sort(function(a,b){return a-b});
@@ -560,7 +559,7 @@ $('optQuentes').disabled = !on || k >= 6;
 salvarCfg();
 }
 ['optMinhas','optQuentes','qtdMinhas'].forEach(function(id){ $(id).onchange = atualizaOpcoes; });
-$('listaMinhas').textContent = fmt(MINHAS);
+$('listaMinhas').textContent = fmt(MINHAS) + " (e o 27 como extra)";
 $('listaQuentes').textContent = fmt(QUENTES);
 lerCfg(); atualizaOpcoes(); historico();
 
