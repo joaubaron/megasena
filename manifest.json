@@ -1,7 +1,7 @@
 {
   "name": "Gerador Mega-Sena",
   "short_name": "Mega-Sena",
-  "description": "Gera 2 jogos de 6 dezenas para a Mega-Sena.",
+  "description": "Gera 2 apostas de 6 dezenas para a Mega-Sena.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
