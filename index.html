@@ -337,7 +337,7 @@ border: 2px solid var(--papel);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.20</span></h1>
+<h1>Mega-Sena <span class="versao">v1.21</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -469,7 +469,7 @@ var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
 var resto = 6 - k, extras;
 if ($('optQuentes').checked){
 // Junta as QUENTES com o CORINGA (27) no mesmo bolo de reservas
-var boloReservas = QUENTES.concat(CORINGA);
+var boloReservas = QUENTES.concat(CORINGA).filter(function(n, i, a){return a.indexOf(n) === i});
 // Sorteia as dezenas que faltam desse bolo, excluindo as que já foram escolhidas nas suas
 extras = escolher(boloReservas.filter(function(n){return minhas.indexOf(n) < 0}), resto);
 } else {
@@ -605,7 +605,7 @@ c[2].forEach(function(x){ x = +x; if (x >= 1 && x <= 60) cont[x] = (cont[x] || 0
 });
 if (n < 300) return null;
 var top = Object.keys(cont).map(Number)
-.filter(function(x){return MINHAS.indexOf(x) < 0})
+.filter(function(x){return MINHAS.indexOf(x) < 0 && CORINGA.indexOf(x) < 0})
 .sort(function(a,b){return cont[b] - cont[a] || a - b})
 .slice(0,8).sort(function(a,b){return a - b});
 return top.length === 8 ? top : null;
