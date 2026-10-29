@@ -248,7 +248,7 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
     </label>
     <label class="op">
       <input type="checkbox" id="optComum" checked>
-      <div><b>Evitar apostas comuns</b><span>Como 1-2-3 ou só datas. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio</span></div>
+      <div><b>Evitar apostas comuns</b><span>Como sequências, só datas ou desenhos no volante. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio</span></div>
     </label>
   </div>
 
@@ -293,17 +293,26 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
   }
   // jogos que muita gente aposta
   function comum(d){
-    var seq = 1, i;
+    var seq = 1, i, k;
     for (i = 1; i < d.length; i++){
       seq = (d[i] === d[i-1] + 1) ? seq + 1 : 1;
-      if (seq >= 3) return true;
+      if (seq >= 3) return true;                                  // 3 seguidos
     }
-    if (d.every(function(n){return n <= 31})) return true;       // só datas
-    var fim = {};
-    d.forEach(function(n){fim[n % 10] = (fim[n % 10] || 0) + 1});
-    for (var k in fim) if (fim[k] >= 3) return true;              // mesmo final
+    if (d.filter(function(n){return n <= 31}).length >= 5) return true;   // quase só datas
+    var fim = {}, lin = {};
+    d.forEach(function(n){
+      fim[n % 10] = (fim[n % 10] || 0) + 1;
+      var l = Math.floor((n - 1) / 10); lin[l] = (lin[l] || 0) + 1;
+    });
+    for (k in fim) if (fim[k] >= 3) return true;                  // mesmo final (coluna do volante)
+    for (k in lin) if (lin[k] >= 4) return true;                  // 4 na mesma linha do volante
     var par = d.filter(function(n){return n % 2 === 0}).length;
     if (par === 0 || par === 6) return true;                      // todos pares/ímpares
+    for (i = 0; i < d.length - 3; i++){                           // progressão (ex.: 5-10-15-20)
+      var p = d[i+1] - d[i], ok = 1;
+      for (k = i + 2; k < d.length && k < i + 4; k++) if (d[k] - d[k-1] !== p) ok = 0;
+      if (ok) return true;
+    }
     return false;
   }
   function escolher(lista, n){
