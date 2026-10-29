@@ -365,7 +365,7 @@ if (ok) return true;
 return false;
 }
 function escolher(lista, n){
-var pesos = lista.map(function(x){ return x === 27 ? 0.25 : 1; });
+var pesos = lista.map(function(x){ return x === 27 ? 0.15 : 1; });
 var pool = lista.slice(), out = [];
 while (out.length < n && pool.length){
 var total = pesos.reduce(function(a,b){return a+b},0);
