@@ -1,6 +1,6 @@
 // Service Workers
 // Toda vez que trocar algo a versão será atualizada automaticamente pelo deploy.yml
-const CACHE_VERSION = '29.10.2026-1030';
+const CACHE_VERSION = '29.10.2026-1032';
 const CACHE_NAME = `megasena-${CACHE_VERSION}`;
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
