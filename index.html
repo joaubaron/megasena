@@ -111,7 +111,7 @@ main{max-width:480px;margin:0 auto}
   background:rgba(255,255,255,.6);transform:rotate(-28deg);filter:blur(1px);pointer-events:none;
 }
 .bola.extra{
-  color:#6b4a00;margin-left:5px;outline:2px dashed var(--ouro);outline-offset:2px;
+  color:#6b4a00; outline:2px dashed var(--ouro); outline-offset:2px;
   background:radial-gradient(circle at 32% 26%,#fbe39a 0,#efc552 32%,var(--ouro) 72%,#b9831a 100%);
   box-shadow:0 7px 10px -5px rgba(120,80,0,.55),inset 0 -4px 7px rgba(0,0,0,.18);
 }
@@ -344,24 +344,36 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
     return s;
   }
   function desenhar(){
-    var c = $('jogos'); c.innerHTML = '';
-    jogos.forEach(function(j, g){
-      var bloco = document.createElement('div'); bloco.className = 'jogo';
-      var t = document.createElement('p'); t.className = 'titulo'; t.textContent = 'Aposta ' + (g + 1);
-      var b = document.createElement('div'); b.className = 'bolas';
-      j.dez.forEach(function(n,i){ b.appendChild(bola(n,false,g*500 + i*70)); });
-      bloco.appendChild(t); bloco.appendChild(b);
-      if (j.extra != null) b.appendChild(bola(j.extra,true,g*500 + 6*70));
-      c.appendChild(bloco);
+  var c = $('jogos'); c.innerHTML = '';
+  jogos.forEach(function(j, g){
+    var bloco = document.createElement('div'); bloco.className = 'jogo';
+    var t = document.createElement('p'); t.className = 'titulo'; t.textContent = 'Aposta ' + (g + 1);
+    var b = document.createElement('div'); b.className = 'bolas';
+
+    // Junta dezenas + extra (se houver) e ordena
+    var lista = j.dez.slice();
+    if (j.extra != null) lista.push(j.extra);
+    lista.sort(function(a, b){ return a - b; });
+
+    lista.forEach(function(n, i){
+      var ehExtra = (j.extra != null && n === j.extra);
+      b.appendChild(bola(n, ehExtra, g * 500 + i * 70));
     });
-    $('copiar').disabled = false; $('salvar').disabled = false;
-  }
+
+    bloco.appendChild(t); bloco.appendChild(b);
+    c.appendChild(bloco);
+  });
+  $('copiar').disabled = false; $('salvar').disabled = false;
+}
   function txt1(j){
-    var f = function(n){return (n<10?'0':'')+n};
-    var s = j.dez.map(f).join(' ');
-    if (j.extra != null) s += ' + extra ' + f(j.extra);
-    return s;
-  }
+  var f = function(n){return (n<10?'0':'')+n};
+  var lista = j.dez.slice();
+  if (j.extra != null) lista.push(j.extra);
+  lista.sort(function(a,b){ return a - b; });
+  return lista.map(function(n){
+    return (j.extra != null && n === j.extra) ? f(n) + '*' : f(n);
+  }).join(' ');
+}
   function txt(l){
     return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j); }).join('\n');
   }
@@ -378,8 +390,13 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
       var f = function(n){return (n<10?'0':'')+n};
       var js = item.jogos || [item];
       li.innerHTML = js.map(function(j){
-        return j.dez.map(f).join(' ') + (j.extra != null ? ' <span class="ex">+ ' + f(j.extra) + '</span>' : '');
-      }).join('<br>') + '<small>' + new Date(item.em).toLocaleDateString('pt-BR') + '</small>';
+  var lista = j.dez.slice();
+  if (j.extra != null) lista.push(j.extra);
+  lista.sort(function(a, b){ return a - b; });
+  return lista.map(function(n){
+    return (j.extra != null && n === j.extra) ? '<span class="ex">' + f(n) + '</span>' : f(n);
+  }).join(' ');
+}).join('<br>') + '<small>' + new Date(item.em).toLocaleDateString('pt-BR') + '</small>';
       var x = document.createElement('button');
       x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
       x.setAttribute('aria-label', 'Apagar esta aposta salva');
