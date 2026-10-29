@@ -10,118 +10,118 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root{
-  --fundo:#eef4ee; --papel:#ffffff; --texto:#17261f; --suave:#5d6f66;
-  --verde:#0f6b4a; --verde2:#209869; --verde3:#0a4d35; --ouro:#e0a82e; --linha:#dbe5dc;
-  --sombra:0 14px 32px -16px rgba(10,60,40,.45);
-  --faixa1:#127a55; --faixa2:#0a4d35;
-  --chave:#c3cfc6;
+--fundo:#eef4ee; --papel:#ffffff; --texto:#17261f; --suave:#5d6f66;
+--verde:#0f6b4a; --verde2:#209869; --verde3:#0a4d35; --ouro:#e0a82e; --linha:#dbe5dc;
+--sombra:0 14px 32px -16px rgba(10,60,40,.45);
+--faixa1:#127a55; --faixa2:#0a4d35;
+--chave:#c3cfc6;
 }
 @media (prefers-color-scheme:dark){
-  :root{
-    --fundo:#0b1511; --papel:#15241d; --texto:#eaf2ed; --suave:#9db3a8; --linha:#27392f;
-    --sombra:0 14px 32px -16px rgba(0,0,0,.7);
-    --faixa1:#0f6b4a; --faixa2:#08382a;
-    --chave:#3a4c43;
-  }
+:root{
+--fundo:#0b1511; --papel:#15241d; --texto:#eaf2ed; --suave:#9db3a8; --linha:#27392f;
+--sombra:0 14px 32px -16px rgba(0,0,0,.7);
+--faixa1:#0f6b4a; --faixa2:#08382a;
+--chave:#3a4c43;
+}
 }
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
-  position:relative; isolation:isolate;
-  background:var(--fundo); color:var(--texto);
-  font:17px/1.45 ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  padding:max(18px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
-  min-height:100vh;
-  -webkit-tap-highlight-color:transparent;
+position:relative; isolation:isolate;
+background:var(--fundo); color:var(--texto);
+font:17px/1.45 ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+padding:max(18px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
+min-height:100vh;
+-webkit-tap-highlight-color:transparent;
 }
 /* faixa verde do topo, com bolinhas de fundo */
 body::before{
-  content:""; position:absolute; z-index:-1; top:0; left:0; right:0; height:230px;
-  background:
-    radial-gradient(circle at 90% 22%, rgba(255,255,255,.12) 0 44px, transparent 45px),
-    radial-gradient(circle at 76% 62%, rgba(224,168,46,.40) 0 20px, transparent 21px),
-    radial-gradient(circle at 98% 78%, rgba(255,255,255,.08) 0 30px, transparent 31px),
-    linear-gradient(160deg,var(--faixa1),var(--faixa2));
-  border-radius:0 0 30px 30px;
+content:""; position:absolute; z-index:-1; top:0; left:0; right:0; height:230px;
+background:
+radial-gradient(circle at 90% 22%, rgba(255,255,255,.12) 0 44px, transparent 45px),
+radial-gradient(circle at 76% 62%, rgba(224,168,46,.40) 0 20px, transparent 21px),
+radial-gradient(circle at 98% 78%, rgba(255,255,255,.08) 0 30px, transparent 31px),
+linear-gradient(160deg,var(--faixa1),var(--faixa2));
+border-radius:0 0 30px 30px;
 }
 main{max-width:480px;margin:0 auto}
 
 /* --- NOVO CABEÇALHO COM LOGO --- */
 .cabecalho {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 6px 0 20px;
+display: flex;
+align-items: center;
+gap: 16px;
+margin: 6px 0 20px;
 }
 
 .cabecalho .logo {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-  flex-shrink: 0;
-  border-radius: 12px; /* Bordas arredondadas na logo */
+width: 64px;
+height: 64px;
+object-fit: contain;
+flex-shrink: 0;
+border-radius: 12px; /* Bordas arredondadas na logo */
 }
 
 .cabecalho .textos {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
 }
 
 .cabecalho h1 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
-  margin: 0 0 2px 0;
-  color: #fff;
-  line-height: 1.2;
+font-size: 1.5rem;
+font-weight: 800;
+letter-spacing: -.01em;
+margin: 0 0 2px 0;
+color: #fff;
+line-height: 1.2;
 }
 
 .cabecalho .sub {
-  color: rgba(255,255,255,.86);
-  margin: 0;
-  font-size: 0.90rem;
-  line-height: 1.3;
+color: rgba(255,255,255,.86);
+margin: 0;
+font-size: 0.90rem;
+line-height: 1.3;
 }
 /* ------------------------------- */
 
 .painel{
-  background:var(--papel);border:1px solid var(--linha);border-radius:24px;
-  padding:22px 16px 16px;box-shadow:var(--sombra);
+background:var(--papel);border:1px solid var(--linha);border-radius:24px;
+padding:22px 16px 16px;box-shadow:var(--sombra);
 }
 .bolas{display:flex;flex-wrap:nowrap;gap:6px;justify-content:center;align-items:center;container-type:inline-size}
 
 /* bola de sorteio: esfera verde com miolo branco */
 .bola{
-  position:relative;isolation:isolate;
-  width:auto;height:auto;flex:0 1 50px;min-width:0;aspect-ratio:1;border-radius:50%;
-  display:grid;place-items:center;
-  font-size:min(1.1rem,4.6cqw);font-weight:800;color:var(--verde3);
-  font-variant-numeric:tabular-nums;
-  background:radial-gradient(circle at 32% 26%,#46c995 0,var(--verde2) 32%,var(--verde) 72%,var(--verde3) 100%);
-  box-shadow:0 7px 10px -5px rgba(10,60,40,.55),inset 0 -4px 7px rgba(0,0,0,.2);
-  animation:cai .5s cubic-bezier(.34,1.56,.64,1) backwards;
+position:relative;isolation:isolate;
+width:auto;height:auto;flex:0 1 50px;min-width:0;aspect-ratio:1;border-radius:50%;
+display:grid;place-items:center;
+font-size:min(1.1rem,4.6cqw);font-weight:800;color:var(--verde3);
+font-variant-numeric:tabular-nums;
+background:radial-gradient(circle at 32% 26%,#46c995 0,var(--verde2) 32%,var(--verde) 72%,var(--verde3) 100%);
+box-shadow:0 7px 10px -5px rgba(10,60,40,.55),inset 0 -4px 7px rgba(0,0,0,.2);
+animation:cai .5s cubic-bezier(.34,1.56,.64,1) backwards;
 }
 .bola::before{
-  content:"";position:absolute;z-index:-1;inset:18%;border-radius:50%;
-  background:#fff;box-shadow:inset 0 1px 3px rgba(0,0,0,.16);
+content:"";position:absolute;z-index:-1;inset:18%;border-radius:50%;
+background:#fff;box-shadow:inset 0 1px 3px rgba(0,0,0,.16);
 }
 .bola::after{
-  content:"";position:absolute;top:9%;left:20%;width:28%;height:15%;border-radius:50%;
-  background:rgba(255,255,255,.6);transform:rotate(-28deg);filter:blur(1px);pointer-events:none;
+content:"";position:absolute;top:9%;left:20%;width:28%;height:15%;border-radius:50%;
+background:rgba(255,255,255,.6);transform:rotate(-28deg);filter:blur(1px);pointer-events:none;
 }
 .bola.extra{
-  color:#6b4a00; outline:2px dashed var(--ouro); outline-offset:2px;
-  background:radial-gradient(circle at 32% 26%,#fbe39a 0,#efc552 32%,var(--ouro) 72%,#b9831a 100%);
-  box-shadow:0 7px 10px -5px rgba(120,80,0,.55),inset 0 -4px 7px rgba(0,0,0,.18);
+color:#6b4a00; outline:2px dashed var(--ouro); outline-offset:2px;
+background:radial-gradient(circle at 32% 26%,#fbe39a 0,#efc552 32%,var(--ouro) 72%,#b9831a 100%);
+box-shadow:0 7px 10px -5px rgba(120,80,0,.55),inset 0 -4px 7px rgba(0,0,0,.18);
 }
 @keyframes cai{from{transform:translateY(-26px) scale(.6);opacity:0}}
 @media (prefers-reduced-motion:reduce){.bola{animation:none}*{transition:none!important}}
 
 .vazio{color:var(--suave);text-align:center;margin:0}
 .vazio::before{
-  content:"";display:block;height:46px;width:276px;max-width:100%;margin:0 auto 14px;
-  background:radial-gradient(circle,var(--linha) 0 18px,transparent 19px) 0 0/46px 46px repeat-x;
+content:"";display:block;height:46px;width:276px;max-width:100%;margin:0 auto 14px;
+background:radial-gradient(circle,var(--linha) 0 18px,transparent 19px) 0 0/46px 46px repeat-x;
 }
 .jogo + .jogo{border-top:2px dashed var(--linha);margin-top:18px;padding-top:18px}
 .titulo{margin:0 0 12px;font-weight:400;text-align:center;color:var(--verde)}
@@ -130,16 +130,16 @@ main{max-width:480px;margin:0 auto}
 .titulo .palavra-extra::after{content:"";position:absolute;left:0;right:0;bottom:-4px;border-bottom:2px dashed var(--ouro);text-shadow:none}
 
 button{
-  font:inherit;font-weight:700;border:0;border-radius:14px;cursor:pointer;
-  padding:14px 16px;min-height:48px;
+font:inherit;font-weight:700;border:0;border-radius:14px;cursor:pointer;
+padding:14px 16px;min-height:48px;
 }
 button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
 button:disabled{opacity:.45;cursor:not-allowed}
 .gerar{
-  width:100%;color:#fff;font-size:1.15rem;margin-top:18px;min-height:54px;border-radius:16px;
-  background:linear-gradient(180deg,var(--verde2),var(--verde));
-  box-shadow:0 4px 0 var(--verde3),0 12px 18px -8px rgba(15,107,74,.65);
-  transition:transform .08s,box-shadow .08s;
+width:100%;color:#fff;font-size:1.15rem;margin-top:18px;min-height:54px;border-radius:16px;
+background:linear-gradient(180deg,var(--verde2),var(--verde));
+box-shadow:0 4px 0 var(--verde3),0 12px 18px -8px rgba(15,107,74,.65);
+transition:transform .08s,box-shadow .08s;
 }
 .gerar:active{transform:translateY(3px);box-shadow:0 1px 0 var(--verde3),0 6px 10px -6px rgba(15,107,74,.6)}
 .sec{background:rgba(15,107,74,.08);color:var(--verde);border:1.5px solid rgba(15,107,74,.35)}
@@ -149,21 +149,21 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 /* opções em um cartão, com chaves liga/desliga */
 .opcoes{
-  margin-top:18px;background:var(--papel);border:1px solid var(--linha);
-  border-radius:20px;padding:4px 16px;display:grid;gap:0;box-shadow:var(--sombra);
+margin-top:18px;background:var(--papel);border:1px solid var(--linha);
+border-radius:20px;padding:4px 16px;display:grid;gap:0;box-shadow:var(--sombra);
 }
 .opcoes > *{padding:14px 0}
 .opcoes > * + *{border-top:1px solid var(--linha)}
 label.op{display:flex;gap:14px;align-items:center;cursor:pointer}
 label.op > div{flex:1;min-width:0}
 label.op input{
-  -webkit-appearance:none;appearance:none;order:2;flex:none;margin:0;cursor:pointer;
-  width:48px;height:29px;border-radius:999px;background:var(--chave);position:relative;
-  transition:background .2s;
+-webkit-appearance:none;appearance:none;order:2;flex:none;margin:0;cursor:pointer;
+width:48px;height:29px;border-radius:999px;background:var(--chave);position:relative;
+transition:background .2s;
 }
 label.op input::after{
-  content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;
-  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s;
+content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;
+background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s;
 }
 label.op input:checked{background:var(--verde2)}
 label.op input:checked::after{transform:translateX(19px)}
@@ -173,41 +173,41 @@ label.op b{display:block}
 label.op span{color:var(--suave);font-size:.9rem}
 .linha{display:flex;align-items:center;justify-content:space-between;gap:12px}
 select{
-  font:inherit;font-weight:700;padding:10px 12px;min-height:44px;border-radius:12px;
-  border:1.5px solid var(--linha);background:var(--fundo);color:var(--texto);
+font:inherit;font-weight:700;padding:10px 12px;min-height:44px;border-radius:12px;
+border:1.5px solid var(--linha);background:var(--fundo);color:var(--texto);
 }
 select:disabled{opacity:.5}
 .chance{
-  margin-top:18px;padding:14px 16px;border-radius:16px;font-size:.95rem;
-  background:rgba(224,168,46,.14);border:1px solid rgba(224,168,46,.4);
+margin-top:18px;padding:14px 16px;border-radius:16px;font-size:.95rem;
+background:rgba(224,168,46,.14);border:1px solid rgba(224,168,46,.4);
 }
 
 /* tabela de chances/preços dentro do card .chance */
 .chance table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:.78rem;
-  font-variant-numeric:tabular-nums;
+width:100%;
+border-collapse:collapse;
+font-size:.78rem;
+font-variant-numeric:tabular-nums;
 }
 .chance th,
 .chance td{
-  padding:7px 4px;
-  text-align:right;
-  border-bottom:1px solid rgba(224,168,46,.35);
-  white-space:nowrap;
+padding:7px 4px;
+text-align:right;
+border-bottom:1px solid rgba(224,168,46,.35);
+white-space:nowrap;
 }
 .chance th:first-child,
 .chance td:first-child{
-  text-align:left;
-  white-space:normal;
+text-align:left;
+white-space:normal;
 }
 .chance thead th{
-  font-weight:800;
-  color:var(--verde3);
-  border-bottom-width:2px;
+font-weight:800;
+color:var(--verde3);
+border-bottom-width:2px;
 }
 @media (prefers-color-scheme:dark){
-  .chance thead th{color:var(--verde2)}
+.chance thead th{color:var(--verde2)}
 }
 .chance tbody tr:last-child td{border-bottom:0}
 .chance .preco{font-weight:700}
@@ -216,24 +216,24 @@ select:disabled{opacity:.5}
 /* ▼▼▼ NOVO: 2 linhas verticais separando as 3 colunas ▼▼▼ */
 .chance th:not(:last-child),
 .chance td:not(:last-child){
-  border-right:1px solid rgba(224,168,46,.35);
+border-right:1px solid rgba(224,168,46,.35);
 }
 .chance thead th:not(:last-child){
-  border-right-width:2px; /* cabeçalho com linha mais forte, igual ao border-bottom */
+border-right-width:2px; /* cabeçalho com linha mais forte, igual ao border-bottom */
 }
 
 .aviso{color:var(--suave);font-size:.9rem;margin:14px 6px 0}
 h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
 .hist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .hist li{
-  background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:12px 14px;
-  font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums;
+background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:12px 14px;
+font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums;
 }
 .hist li{position:relative;padding-right:96px}
 .hist .del{
-  position:absolute;top:10px;right:10px;min-height:40px;padding:6px 14px;
-  font-size:.9rem;border-radius:12px;background:transparent;
-  color:#b3382c;border:1.5px solid rgba(179,56,44,.4);
+position:absolute;top:10px;right:10px;min-height:40px;padding:6px 14px;
+font-size:.9rem;border-radius:12px;background:transparent;
+color:#b3382c;border:1.5px solid rgba(179,56,44,.4);
 }
 @media (prefers-color-scheme:dark){.hist .del{color:#ff9a8f;border-color:rgba(255,154,143,.45)}}
 .hist .ex{color:#b9831a;font-weight:800}
@@ -241,352 +241,353 @@ h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
 .hist small{display:block;color:var(--suave);font-weight:400;letter-spacing:0;margin-top:2px}
 .limpar{margin-top:12px;background:transparent;color:var(--suave);text-decoration:underline;padding:8px 0;min-height:auto}
 .toast{
-  position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);
-  background:var(--texto);color:var(--fundo);padding:11px 18px;border-radius:999px;font-size:.95rem;font-weight:600;
-  box-shadow:0 8px 20px -6px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s
+position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);
+background:var(--texto);color:var(--fundo);padding:11px 18px;border-radius:999px;font-size:.95rem;font-weight:600;
+box-shadow:0 8px 20px -6px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s
 }
 .toast.on{opacity:1}
 .versao{
-  font-size:.7rem;
-  font-weight:700;
-  padding:2px 8px;
-  border-radius:999px;
-  background:rgba(255,255,255,.2);
-  vertical-align:middle;
+font-size:.7rem;
+font-weight:700;
+padding:2px 8px;
+border-radius:999px;
+background:rgba(255,255,255,.2);
+vertical-align:middle;
 }
 </style>
 </head>
 <body>
 <main>
-  <div class="cabecalho">
-    <img src="logo.png" alt="Logo Mega-Sena" class="logo">
-    <div class="textos">
-      <h1>Mega-Sena <span class="versao">v1.0</span></h1>
-      <p class="sub">Gera apostas de 6 dezenas + extra</p>
-    </div>
-  </div>
+<div class="cabecalho">
+<img src="logo.png" alt="Logo Mega-Sena" class="logo">
+<div class="textos">
+<h1>Mega-Sena <span class="versao">v1.0</span></h1>
+<p class="sub">Gera apostas de 6 dezenas + extra</p>
+</div>
+</div>
 
-  <section class="painel" aria-live="polite">
-    <div id="jogos"><p class="vazio">Toque em “Gerar 2 apostas”</p></div>
-    <button class="gerar" id="gerar">Gerar 2 apostas</button>
-    <div class="acoes">
-      <button class="sec" id="copiar" disabled>Copiar</button>
-      <button class="sec" id="salvar" disabled>Salvar</button>
-    </div>
-  </section>
+<section class="painel" aria-live="polite">
+<div id="jogos"><p class="vazio">Toque em “Gerar 2 apostas”</p></div>
+<button class="gerar" id="gerar">Gerar 2 apostas</button>
+<div class="acoes">
+<button class="sec" id="copiar" disabled>Copiar</button>
+<button class="sec" id="salvar" disabled>Salvar</button>
+</div>
+</section>
 
-  <div class="opcoes">
-    <label class="op">
-      <input type="checkbox" id="optMinhas" checked>
-      <div><b>Usar minhas dezenas</b><span>Cada aposta leva algumas das suas: <span id="listaMinhas"></span></span></div>
-    </label>
-    <div class="linha">
-      <label for="qtdMinhas"><b>Quantas das suas por aposta</b></label>
-      <select id="qtdMinhas">
-        <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
-        <option value="4">4</option><option value="5">5</option>
-      </select>
-    </div>
-    <label class="op">
-      <input type="checkbox" id="optQuentes" checked>
-      <div><b>Completar com as mais sorteadas</b><span><span id="fonteQuentes">Do histórico</span>: <span id="listaQuentes"></span>. Se desligar, completa ao acaso</span></div>
-    </label>
-    <label class="op">
-      <input type="checkbox" id="optExtra" checked>
-      <div><b>Mostrar dezena extra</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
-    </label>
-    <label class="op">
-      <input type="checkbox" id="optComum" checked>
-      <div><b>Evitar apostas comuns</b><span>Como sequências, só datas ou desenhos no volante. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio</span></div>
-    </label>
-  </div>
+<div class="opcoes">
+<label class="op">
+<input type="checkbox" id="optMinhas" checked>
+<div><b>Usar minhas dezenas</b><span>Cada aposta leva algumas das suas: <span id="listaMinhas"></span></span></div>
+</label>
+<div class="linha">
+<label for="qtdMinhas"><b>Quantas das suas por aposta</b></label>
+<select id="qtdMinhas">
+<option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
+<option value="4">4</option><option value="5">5</option><option value="6">6</option>
+</select>
+</div>
+<label class="op">
+<input type="checkbox" id="optQuentes" checked>
+<div><b>Completar com as mais sorteadas</b><span><span id="fonteQuentes">Do histórico</span>: <span id="listaQuentes"></span>. Se desligar, completa ao acaso</span></div>
+</label>
+<label class="op">
+<input type="checkbox" id="optExtra" checked>
+<div><b>Mostrar dezena extra</b><span>Se usar, a aposta passa a ter 7 dezenas e custa 7 vezes mais</span></div>
+</label>
+<label class="op">
+<input type="checkbox" id="optComum" checked>
+<div><b>Evitar apostas comuns</b><span>Como sequências, só datas ou desenhos no volante. Não muda a chance de ganhar. Ajuda a dividir menos o prêmio</span></div>
+</label>
+</div>
 
-  <div class="chance" id="chance"></div>
-  <p class="aviso">O sorteio é pura sorte. Nenhuma aposta, nem a das mais sorteadas, tem mais chance que outra</p>
+<div class="chance" id="chance"></div>
+<p class="aviso">O sorteio é pura sorte. Nenhuma aposta, nem a das mais sorteadas, tem mais chance que outra</p>
 
-  <h2>Apostas salvas</h2>
-  <ul class="hist" id="hist"></ul>
-  <button class="limpar" id="limpar" hidden>Apagar todas</button>
+<h2>Apostas salvas</h2>
+<ul class="hist" id="hist"></ul>
+<button class="limpar" id="limpar" hidden>Apagar todas</button>
 </main>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 (function(){
-  var $ = function(id){return document.getElementById(id)};
-  var CHAVE = 'megasena_salvos_v1';
-  var CFG = 'megasena_cfg_v1';
-  var MINHAS = [5,17,23,27,36,38,44];            // suas dezenas fixas
-  var QUENTES_FIXA = [4,10,30,32,33,34,37,53];   // reserva: mais sorteadas no histórico (fora as suas)
-  var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
-  var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
-  var HIST = 'megasena_hist_v1';
-  var jogos = null; // [{dez:[], extra:n|null}, {dez:[], extra:n|null}]
-  var vistos = {}; // jogos já gerados nesta sessão
+var $ = function(id){return document.getElementById(id)};
+var CHAVE = 'megasena_salvos_v1';
+var CFG = 'megasena_cfg_v1';
+var MINHAS = [5,17,23,27,36,38,44];            // suas dezenas fixas
+var QUENTES_FIXA = [4,10,30,32,33,34,37,53];   // reserva: mais sorteadas no histórico (fora as suas)
+var QUENTES = QUENTES_FIXA.slice();            // troca pela lista dos últimos 5 anos quando carregar
+var HIST_URL = 'https://resultadomega.com.br/api/concursos.json'; // [concurso, "AAAA-MM-DD", [dezenas]]
+var HIST = 'megasena_hist_v1';
+var jogos = null; // [{dez:[], extra:n|null}, {dez:[], extra:n|null}]
+var vistos = {}; // jogos já gerados nesta sessão
 
-  // sorteio sem viés
-  function rnd(n){
-    var lim = Math.floor(4294967296 / n) * n, x;
-    var b = new Uint32Array(1);
-    do { crypto.getRandomValues(b); x = b[0]; } while (x >= lim);
-    return x % n;
-  }
-  function sortear(qtd, exceto){
-    var pool = [], i;
-    for (i = 1; i <= 60; i++) if (!exceto || exceto.indexOf(i) < 0) pool.push(i);
-    var out = [];
-    while (out.length < qtd){
-      var k = rnd(pool.length);
-      out.push(pool.splice(k,1)[0]);
-    }
-    return out.sort(function(a,b){return a-b});
-  }
-  // jogos que muita gente aposta
-  function comum(d){
-    var seq = 1, i, k;
-    for (i = 1; i < d.length; i++){
-      seq = (d[i] === d[i-1] + 1) ? seq + 1 : 1;
-      if (seq >= 3) return true;                                  // 3 seguidos
-    }
-    if (d.filter(function(n){return n <= 31}).length >= 5) return true;   // quase só datas
-    var fim = {}, lin = {};
-    d.forEach(function(n){
-      fim[n % 10] = (fim[n % 10] || 0) + 1;
-      var l = Math.floor((n - 1) / 10); lin[l] = (lin[l] || 0) + 1;
-    });
-    for (k in fim) if (fim[k] >= 3) return true;                  // mesmo final (coluna do volante)
-    for (k in lin) if (lin[k] >= 4) return true;                  // 4 na mesma linha do volante
-    var par = d.filter(function(n){return n % 2 === 0}).length;
-    if (par === 0 || par === 6) return true;                      // todos pares/ímpares
-    for (i = 0; i < d.length - 3; i++){                           // progressão (ex.: 5-10-15-20)
-      var p = d[i+1] - d[i], ok = 1;
-      for (k = i + 2; k < d.length && k < i + 4; k++) if (d[k] - d[k-1] !== p) ok = 0;
-      if (ok) return true;
-    }
-    return false;
-  }
-  function escolher(lista, n){
-    var pool = lista.slice(), out = [];
-    while (out.length < n && pool.length) out.push(pool.splice(rnd(pool.length),1)[0]);
-    return out;
-  }
-  function montar(){
-    if (!$('optMinhas').checked) return sortear(6);
-    var k = +$('qtdMinhas').value;
-    var minhas = escolher(MINHAS, k);
-    var resto = 6 - k, extras;
-    if ($('optQuentes').checked){
-      extras = escolher(QUENTES.filter(function(n){return minhas.indexOf(n) < 0}), resto);
-    } else {
-      extras = sortear(resto, minhas);
-    }
-    return minhas.concat(extras).sort(function(a,b){return a-b});
-  }
-  function um(){
-    var d, t = 0;
-    do { d = montar(); t++; }
-    while (((($('optComum').checked && comum(d))) || vistos[d.join('-')]) && t < 500);
-    vistos[d.join('-')] = 1;
-    return d;
-  }
-  function gerar(){
-    jogos = [];
-    for (var i = 0; i < 2; i++){
-      var d = um();
-      jogos.push({dez: d, extra: $('optExtra').checked ? sortear(1, d)[0] : null});
-    }
-    desenhar();
-  }
-  function bola(n, extra, atraso){
-    var s = document.createElement('div');
-    s.className = 'bola' + (extra ? ' extra' : '');
-    s.textContent = (n < 10 ? '0' : '') + n;
-    s.style.animationDelay = atraso + 'ms';
-    return s;
-  }
-  function desenhar(){
-  var c = $('jogos'); c.innerHTML = '';
-  jogos.forEach(function(j, g){
-    var bloco = document.createElement('div'); bloco.className = 'jogo';
-    var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas + <b class="palavra-extra">extra</b>';
-    var b = document.createElement('div'); b.className = 'bolas';
-
-    // Junta dezenas + extra (se houver) e ordena
-    var lista = j.dez.slice();
-    if (j.extra != null) lista.push(j.extra);
-    lista.sort(function(a, b){ return a - b; });
-
-    lista.forEach(function(n, i){
-      var ehExtra = (j.extra != null && n === j.extra);
-      b.appendChild(bola(n, ehExtra, g * 500 + i * 70));
-    });
-
-    bloco.appendChild(t); bloco.appendChild(b);
-    c.appendChild(bloco);
-  });
-  $('copiar').disabled = false; $('salvar').disabled = false;
+// sorteio sem viés
+function rnd(n){
+var lim = Math.floor(4294967296 / n) * n, x;
+var b = new Uint32Array(1);
+do { crypto.getRandomValues(b); x = b[0]; } while (x >= lim);
+return x % n;
 }
-  function txt1(j){
-  var f = function(n){return (n<10?'0':'')+n};
-  var lista = j.dez.slice();
-  if (j.extra != null) lista.push(j.extra);
-  lista.sort(function(a,b){ return a - b; });
-  return lista.map(function(n){
-    return (j.extra != null && n === j.extra) ? f(n) + '*' : f(n);
-  }).join(' ');
+function sortear(qtd, exceto){
+var pool = [], i;
+for (i = 1; i <= 60; i++) if (!exceto || exceto.indexOf(i) < 0) pool.push(i);
+var out = [];
+while (out.length < qtd){
+var k = rnd(pool.length);
+out.push(pool.splice(k,1)[0]);
 }
-  function txt(l){
-    return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j); }).join('\n');
-  }
-  function aviso(m){
-    var t = $('toast'); t.textContent = m; t.classList.add('on');
-    clearTimeout(aviso.t); aviso.t = setTimeout(function(){t.classList.remove('on')}, 1800);
-  }
-  function ler(){ try { return JSON.parse(localStorage.getItem(CHAVE)) || []; } catch(e){ return []; } }
-  function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); } catch(e){} }
-  function lista(){
-    var l = ler(), ul = $('hist'); ul.innerHTML = '';
-    l.forEach(function(item, idx){
-      var li = document.createElement('li');
-      var f = function(n){return (n<10?'0':'')+n};
-      var js = item.jogos || [item];
-      li.innerHTML = js.map(function(j){
-  var lista = j.dez.slice();
-  if (j.extra != null) lista.push(j.extra);
-  lista.sort(function(a, b){ return a - b; });
-  return lista.map(function(n){
-    return (j.extra != null && n === j.extra) ? '<span class="ex">' + f(n) + '</span>' : f(n);
-  }).join(' ');
+return out.sort(function(a,b){return a-b});
+}
+// jogos que muita gente aposta
+function comum(d){
+var seq = 1, i, k;
+for (i = 1; i < d.length; i++){
+seq = (d[i] === d[i-1] + 1) ? seq + 1 : 1;
+if (seq >= 3) return true;                                  // 3 seguidos
+}
+if (d.filter(function(n){return n <= 31}).length >= 5) return true;   // quase só datas
+var fim = {}, lin = {};
+d.forEach(function(n){
+fim[n % 10] = (fim[n % 10] || 0) + 1;
+var l = Math.floor((n - 1) / 10); lin[l] = (lin[l] || 0) + 1;
+});
+for (k in fim) if (fim[k] >= 3) return true;                  // mesmo final (coluna do volante)
+for (k in lin) if (lin[k] >= 4) return true;                  // 4 na mesma linha do volante
+var par = d.filter(function(n){return n % 2 === 0}).length;
+if (par === 0 || par === 6) return true;                      // todos pares/ímpares
+for (i = 0; i < d.length - 3; i++){                           // progressão (ex.: 5-10-15-20)
+var p = d[i+1] - d[i], ok = 1;
+for (k = i + 2; k < d.length && k < i + 4; k++) if (d[k] - d[k-1] !== p) ok = 0;
+if (ok) return true;
+}
+return false;
+}
+function escolher(lista, n){
+var pool = lista.slice(), out = [];
+while (out.length < n && pool.length) out.push(pool.splice(rnd(pool.length),1)[0]);
+return out;
+}
+function montar(){
+if (!$('optMinhas').checked) return sortear(6);
+var k = +$('qtdMinhas').value;
+var minhas = escolher(MINHAS, k);
+var resto = 6 - k, extras;
+if ($('optQuentes').checked){
+extras = escolher(QUENTES.filter(function(n){return minhas.indexOf(n) < 0}), resto);
+} else {
+extras = sortear(resto, minhas);
+}
+return minhas.concat(extras).sort(function(a,b){return a-b});
+}
+function um(){
+var d, t = 0;
+do { d = montar(); t++; }
+while (((($('optComum').checked && comum(d))) || vistos[d.join('-')]) && t < 500);
+vistos[d.join('-')] = 1;
+return d;
+}
+function gerar(){
+jogos = [];
+for (var i = 0; i < 2; i++){
+var d = um();
+jogos.push({dez: d, extra: $('optExtra').checked ? sortear(1, d)[0] : null});
+}
+desenhar();
+}
+function bola(n, extra, atraso){
+var s = document.createElement('div');
+s.className = 'bola' + (extra ? ' extra' : '');
+s.textContent = (n < 10 ? '0' : '') + n;
+s.style.animationDelay = atraso + 'ms';
+return s;
+}
+function desenhar(){
+var c = $('jogos'); c.innerHTML = '';
+jogos.forEach(function(j, g){
+var bloco = document.createElement('div'); bloco.className = 'jogo';
+var t = document.createElement('p'); t.className = 'titulo'; t.innerHTML = 'Aposta ' + (g + 1) + ' com 6 dezenas + <b class="palavra-extra">extra</b>';
+var b = document.createElement('div'); b.className = 'bolas';
+
+// Junta dezenas + extra (se houver) e ordena
+var lista = j.dez.slice();
+if (j.extra != null) lista.push(j.extra);
+lista.sort(function(a, b){ return a - b; });
+
+lista.forEach(function(n, i){
+var ehExtra = (j.extra != null && n === j.extra);
+b.appendChild(bola(n, ehExtra, g * 500 + i * 70));
+});
+
+bloco.appendChild(t); bloco.appendChild(b);
+c.appendChild(bloco);
+});
+$('copiar').disabled = false; $('salvar').disabled = false;
+}
+function txt1(j){
+var f = function(n){return (n<10?'0':'')+n};
+var lista = j.dez.slice();
+if (j.extra != null) lista.push(j.extra);
+lista.sort(function(a,b){ return a - b; });
+return lista.map(function(n){
+return (j.extra != null && n === j.extra) ? f(n) + '*' : f(n);
+}).join(' ');
+}
+function txt(l){
+return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j); }).join('\n');
+}
+function aviso(m){
+var t = $('toast'); t.textContent = m; t.classList.add('on');
+clearTimeout(aviso.t); aviso.t = setTimeout(function(){t.classList.remove('on')}, 1800);
+}
+function ler(){ try { return JSON.parse(localStorage.getItem(CHAVE)) || []; } catch(e){ return []; } }
+function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); } catch(e){} }
+function lista(){
+var l = ler(), ul = $('hist'); ul.innerHTML = '';
+l.forEach(function(item, idx){
+var li = document.createElement('li');
+var f = function(n){return (n<10?'0':'')+n};
+var js = item.jogos || [item];
+li.innerHTML = js.map(function(j){
+var lista = j.dez.slice();
+if (j.extra != null) lista.push(j.extra);
+lista.sort(function(a, b){ return a - b; });
+return lista.map(function(n){
+return (j.extra != null && n === j.extra) ? '<span class="ex">' + f(n) + '</span>' : f(n);
+}).join(' ');
 }).join('<br>') + '<small>' + new Date(item.em).toLocaleDateString('pt-BR') + '</small>';
-      var x = document.createElement('button');
-      x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
-      x.setAttribute('aria-label', 'Apagar esta aposta salva');
-      x.onclick = function(){
-        if (!confirm('Apagar esta aposta?')) return;
-        var atual = ler(); atual.splice(idx, 1);
-        gravar(atual); lista(); aviso('Apagado');
-      };
-      li.appendChild(x);
-      ul.appendChild(li);
-    });
-    $('limpar').hidden = l.length === 0;
-  }
-  function chance(){
-    $('chance').innerHTML =
-      '<table>' +
-        '<thead><tr>' +
-          '<th>Números</th><th>Preço</th><th>Chances</th>' +
-        '</tr></thead>' +
-        '<tbody>' +
-          '<tr><td>6 (mín)</td><td class="preco">R$ 6,00</td><td class="chance-val">1 em 50.063.860</td></tr>' +
-          '<tr><td>7</td><td class="preco">R$ 42,00</td><td class="chance-val">1 em 7.151.980</td></tr>' +
-          '<tr><td>10</td><td class="preco">R$ 1.260,00</td><td class="chance-val">1 em 238.399</td></tr>' +
-          '<tr><td>15</td><td class="preco">R$ 30.030,00</td><td class="chance-val">1 em 10.003</td></tr>' +
-          '<tr><td>20 (máx)</td><td class="preco">R$ 232.560,00</td><td class="chance-val">1 em 1.292</td></tr>' +
-        '</tbody>' +
-      '</table>';
-  }
+var x = document.createElement('button');
+x.type = 'button'; x.className = 'del'; x.textContent = 'Apagar';
+x.setAttribute('aria-label', 'Apagar esta aposta salva');
+x.onclick = function(){
+if (!confirm('Apagar esta aposta?')) return;
+var atual = ler(); atual.splice(idx, 1);
+gravar(atual); lista(); aviso('Apagado');
+};
+li.appendChild(x);
+ul.appendChild(li);
+});
+$('limpar').hidden = l.length === 0;
+}
+function chance(){
+$('chance').innerHTML =
+'<table>' +
+'<thead><tr>' +
+'<th>Números</th><th>Preço</th><th>Chances</th>' +
+'</tr></thead>' +
+'<tbody>' +
+'<tr><td>6 (mín)</td><td class="preco">R$ 6,00</td><td class="chance-val">1 em 50.063.860</td></tr>' +
+'<tr><td>7</td><td class="preco">R$ 42,00</td><td class="chance-val">1 em 7.151.980</td></tr>' +
+'<tr><td>10</td><td class="preco">R$ 1.260,00</td><td class="chance-val">1 em 238.399</td></tr>' +
+'<tr><td>15</td><td class="preco">R$ 30.030,00</td><td class="chance-val">1 em 10.003</td></tr>' +
+'<tr><td>20 (máx)</td><td class="preco">R$ 232.560,00</td><td class="chance-val">1 em 1.292</td></tr>' +
+'</tbody>' +
+'</table>';
+}
 
-  function fmt(l){return l.map(function(n){return (n<10?'0':'')+n}).join(' ')}
-  function mostrarQuentes(rotulo){
-    $('fonteQuentes').textContent = rotulo;
-    $('listaQuentes').textContent = fmt(QUENTES);
-  }
-  // conta as dezenas dos últimos 5 anos; devolve as 8 que mais saíram (fora as suas)
-  function calcular(lista){
-    if (!Array.isArray(lista)) return null;
-    var d = new Date(); d.setFullYear(d.getFullYear() - 5);
-    var corte = d.toISOString().slice(0,10), cont = {}, n = 0;
-    lista.forEach(function(c){
-      if (!Array.isArray(c) || typeof c[1] !== 'string' || !Array.isArray(c[2]) || c[2].length !== 6) return;
-      if (c[1] < corte) return;
-      n++;
-      c[2].forEach(function(x){ x = +x; if (x >= 1 && x <= 60) cont[x] = (cont[x] || 0) + 1; });
-    });
-    if (n < 300) return null;
-    var top = Object.keys(cont).map(Number)
-      .filter(function(x){return MINHAS.indexOf(x) < 0})
-      .sort(function(a,b){return cont[b] - cont[a] || a - b})
-      .slice(0,8).sort(function(a,b){return a - b});
-    return top.length === 8 ? top : null;
-  }
-  function historico(){
-    var c = null;
-    try { c = JSON.parse(localStorage.getItem(HIST)); } catch(e){}
-    if (c && c.q && c.q.length === 8){ QUENTES = c.q; mostrarQuentes('Últimos 5 anos'); }
-    else mostrarQuentes('Histórico geral');
-    if (c && c.em && Date.now() - c.em < 43200000) return;   // atualiza a cada 12 horas
-    if (!window.fetch) return;
-    var ctl = window.AbortController ? new AbortController() : null;
-    var to = setTimeout(function(){ if (ctl) ctl.abort(); }, 10000);
-    fetch(HIST_URL, {cache:'no-cache', signal: ctl ? ctl.signal : undefined})
-      .then(function(r){ return r.json(); })
-      .then(function(lista){
-        var q = calcular(lista);
-        if (!q) return;
-        QUENTES = q; mostrarQuentes('Últimos 5 anos');
-        try { localStorage.setItem(HIST, JSON.stringify({em: Date.now(), q: q})); } catch(e){}
-      })
-      .catch(function(){})
-      .then(function(){ clearTimeout(to); });
-  }
-  function lerCfg(){
-    try {
-      var c = JSON.parse(localStorage.getItem(CFG)) || {};
-      if (c.minhas != null) $('optMinhas').checked = c.minhas;
-      if (c.quentes != null) $('optQuentes').checked = c.quentes;
-      if (c.qtd) $('qtdMinhas').value = c.qtd;
-    } catch(e){}
-  }
-  function salvarCfg(){
-    try { localStorage.setItem(CFG, JSON.stringify({
-      minhas: $('optMinhas').checked, quentes: $('optQuentes').checked, qtd: $('qtdMinhas').value
-    })); } catch(e){}
-  }
-  function atualizaOpcoes(){
-    var on = $('optMinhas').checked;
-    $('qtdMinhas').disabled = !on;
-    $('optQuentes').disabled = !on;
-    salvarCfg();
-  }
-  ['optMinhas','optQuentes','qtdMinhas'].forEach(function(id){ $(id).onchange = atualizaOpcoes; });
-  $('listaMinhas').textContent = fmt(MINHAS);
-  $('listaQuentes').textContent = fmt(QUENTES);
-  lerCfg(); atualizaOpcoes(); historico();
+function fmt(l){return l.map(function(n){return (n<10?'0':'')+n}).join(' ')}
+function mostrarQuentes(rotulo){
+$('fonteQuentes').textContent = rotulo;
+$('listaQuentes').textContent = fmt(QUENTES);
+}
+// conta as dezenas dos últimos 5 anos; devolve as 8 que mais saíram (fora as suas)
+function calcular(lista){
+if (!Array.isArray(lista)) return null;
+var d = new Date(); d.setFullYear(d.getFullYear() - 5);
+var corte = d.toISOString().slice(0,10), cont = {}, n = 0;
+lista.forEach(function(c){
+if (!Array.isArray(c) || typeof c[1] !== 'string' || !Array.isArray(c[2]) || c[2].length !== 6) return;
+if (c[1] < corte) return;
+n++;
+c[2].forEach(function(x){ x = +x; if (x >= 1 && x <= 60) cont[x] = (cont[x] || 0) + 1; });
+});
+if (n < 300) return null;
+var top = Object.keys(cont).map(Number)
+.filter(function(x){return MINHAS.indexOf(x) < 0})
+.sort(function(a,b){return cont[b] - cont[a] || a - b})
+.slice(0,8).sort(function(a,b){return a - b});
+return top.length === 8 ? top : null;
+}
+function historico(){
+var c = null;
+try { c = JSON.parse(localStorage.getItem(HIST)); } catch(e){}
+if (c && c.q && c.q.length === 8){ QUENTES = c.q; mostrarQuentes('Últimos 5 anos'); }
+else mostrarQuentes('Histórico geral');
+if (c && c.em && Date.now() - c.em < 43200000) return;   // atualiza a cada 12 horas
+if (!window.fetch) return;
+var ctl = window.AbortController ? new AbortController() : null;
+var to = setTimeout(function(){ if (ctl) ctl.abort(); }, 10000);
+fetch(HIST_URL, {cache:'no-cache', signal: ctl ? ctl.signal : undefined})
+.then(function(r){ return r.json(); })
+.then(function(lista){
+var q = calcular(lista);
+if (!q) return;
+QUENTES = q; mostrarQuentes('Últimos 5 anos');
+try { localStorage.setItem(HIST, JSON.stringify({em: Date.now(), q: q})); } catch(e){}
+})
+.catch(function(){})
+.then(function(){ clearTimeout(to); });
+}
+function lerCfg(){
+try {
+var c = JSON.parse(localStorage.getItem(CFG)) || {};
+if (c.minhas != null) $('optMinhas').checked = c.minhas;
+if (c.quentes != null) $('optQuentes').checked = c.quentes;
+if (c.qtd) $('qtdMinhas').value = c.qtd;
+} catch(e){}
+}
+function salvarCfg(){
+try { localStorage.setItem(CFG, JSON.stringify({
+minhas: $('optMinhas').checked, quentes: $('optQuentes').checked, qtd: $('qtdMinhas').value
+})); } catch(e){}
+}
+function atualizaOpcoes(){
+var on = $('optMinhas').checked;
+var k = +$('qtdMinhas').value;
+$('qtdMinhas').disabled = !on;
+$('optQuentes').disabled = !on || k >= 6;
+salvarCfg();
+}
+['optMinhas','optQuentes','qtdMinhas'].forEach(function(id){ $(id).onchange = atualizaOpcoes; });
+$('listaMinhas').textContent = fmt(MINHAS);
+$('listaQuentes').textContent = fmt(QUENTES);
+lerCfg(); atualizaOpcoes(); historico();
 
-  $('gerar').onclick = gerar;
-  $('optExtra').onchange = function(){
-    chance();
-    if (jogos){
-      var on = this.checked;
-      jogos.forEach(function(j){
-        if (on && j.extra == null) j.extra = sortear(1, j.dez)[0];
-        if (!on) j.extra = null;
-      });
-      desenhar();
-    }
-  };
-  $('copiar').onclick = function(){
-    if (!jogos) return;
-    var t = txt(jogos);
-    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
-      .then(function(){aviso('Copiado')}, function(){aviso('Não deu para copiar')});
-  };
-  $('salvar').onclick = function(){
-    if (!jogos) return;
-    var l = ler(); l.unshift({jogos: jogos, em: Date.now()});
-    gravar(l.slice(0,20)); lista(); aviso('Salvo');
-  };
-  $('limpar').onclick = function(){
-    if (confirm('Apagar todas as apostas salvas?')){ gravar([]); lista(); }
-  };
+$('gerar').onclick = gerar;
+$('optExtra').onchange = function(){
+chance();
+if (jogos){
+var on = this.checked;
+jogos.forEach(function(j){
+if (on && j.extra == null) j.extra = sortear(1, j.dez)[0];
+if (!on) j.extra = null;
+});
+desenhar();
+}
+};
+$('copiar').onclick = function(){
+if (!jogos) return;
+var t = txt(jogos);
+(navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+.then(function(){aviso('Copiado')}, function(){aviso('Não deu para copiar')});
+};
+$('salvar').onclick = function(){
+if (!jogos) return;
+var l = ler(); l.unshift({jogos: jogos, em: Date.now()});
+gravar(l.slice(0,20)); lista(); aviso('Salvo');
+};
+$('limpar').onclick = function(){
+if (confirm('Apagar todas as apostas salvas?')){ gravar([]); lista(); }
+};
 
-  chance(); lista();
-  
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .catch(function(erro) {
-      console.error('Erro ao registrar Service Worker:', erro);
-    });
+chance(); lista();
+
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('sw.js')
+.catch(function(erro) {
+console.error('Erro ao registrar Service Worker:', erro);
+});
 }
 })();
 </script>
