@@ -1,12 +1,12 @@
 // Service Workers
-// Toda vez que trocar algo a versão será atualizada automaticamente pelo deploy.yml
-const CACHE_VERSION = '29.10.2026-1032';
+// A versão é atualizada automaticamente pelo deploy.yml
+const CACHE_VERSION = '29.10.2026-1037'; // O robô vai mudar isso
 const CACHE_NAME = `megasena-${CACHE_VERSION}`;
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(ASSETS)}));
-  self.skipWaiting();
+  self.skipWaiting(); // Força o novo SW a instalar imediatamente
 });
 
 self.addEventListener('activate', function(e){
@@ -15,12 +15,30 @@ self.addEventListener('activate', function(e){
       ks.filter(function(k){ return k !== CACHE_NAME; })
         .map(function(k){ return caches.delete(k); })
     );
+  }).then(function(){
+    return self.clients.claim(); // Força o novo SW a assumir o controle das abas abertas
   }));
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', function(e){
   if (e.request.method !== 'GET') return;
   if (new URL(e.request.url).origin !== location.origin) return;
-  e.respondWith(caches.match(e.request).then(function(r){return r || fetch(e.request)}));
+
+  // ESTRATÉGIA NETWORK FIRST: Tenta a rede, se falhar (offline) usa o cache.
+  e.respondWith(
+    fetch(e.request)
+      .then(function(response){
+        // Se a resposta for boa, salva no cache para uso offline futuro
+        if (response && response.status === 200) {
+          var responseClone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache){
+            cache.put(e.request, responseClone);
+          });
+        }
+        return response;
+      })
+      .catch(function(){
+        return caches.match(e.request);
+      })
+  );
 });
