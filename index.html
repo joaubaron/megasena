@@ -365,8 +365,18 @@ if (ok) return true;
 return false;
 }
 function escolher(lista, n){
+var pesos = lista.map(function(x){ return x === 27 ? 0.25 : 1; });
 var pool = lista.slice(), out = [];
-while (out.length < n && pool.length) out.push(pool.splice(rnd(pool.length),1)[0]);
+while (out.length < n && pool.length){
+var total = pesos.reduce(function(a,b){return a+b},0);
+var r = Math.random() * total, acc = 0, idx = 0;
+for (var i = 0; i < pool.length; i++){
+acc += pesos[i];
+if (r <= acc){ idx = i; break; }
+}
+out.push(pool.splice(idx,1)[0]);
+pesos.splice(idx,1);
+}
 return out;
 }
 function montar(){
