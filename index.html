@@ -261,7 +261,7 @@ vertical-align:middle;
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.12</span></h1>
+<h1>Mega-Sena <span class="versao">v1.13</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -367,8 +367,8 @@ return false;
 function escolher(lista, n){
 // Se a lista for a das suas dezenas e o 27 estiver nela, fazemos um filtro rígido
 var base = lista.slice();
-if (base.indexOf(27) > -1 && n < base.length) {
-// Remove o 27 da lista de opções (a menos que vc peça 6 ou 7 dezenas)
+if (base.indexOf(27) > -1 && n <= 5) {   // <--- MUDANÇA AQUI (de < base.length para <= 5)
+// Remove o 27 da lista de opções SE pedirmos até 5 dezenas
 base = base.filter(function(x){ return x !== 27; });
 }
 
