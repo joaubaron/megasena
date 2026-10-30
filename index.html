@@ -279,6 +279,8 @@ white-space:nowrap;
 @media (prefers-color-scheme:dark){
 .btn-rodape{color:#5fd3a2}
 }
+#btnMeusNumeros{display:inline-flex;align-items:center;gap:8px}
+.ico-fav{width:24px;height:24px;object-fit:contain;flex:none}
 #limpar{color:#b3382c}
 @media (prefers-color-scheme:dark){#limpar{color:#ff9a8f}}
 
@@ -352,7 +354,7 @@ button.ok{background:var(--verde);color:#fff}
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.29</span></h1>
+<h1>Mega-Sena <span class="versao">v1.28</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -403,7 +405,7 @@ button.ok{background:var(--verde);color:#fff}
 <ul class="hist" id="hist"></ul>
 <div class="rodape-botoes">
 <button class="btn-rodape" id="limpar" type="button" disabled>Apagar todas</button>
-<button class="btn-rodape" id="btnMeusNumeros" type="button">Meus números</button>
+<button class="btn-rodape" id="btnMeusNumeros" type="button"><img src="favoritos.png" alt="" class="ico-fav">Meus números</button>
 </div>
 </main>
 
