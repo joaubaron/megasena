@@ -354,7 +354,16 @@ button.ok{background:var(--verde);color:#fff}
 
 /* Botão principal: mais chamativo, com ícone */
 .gerar{font-size:1.25rem;min-height:60px;letter-spacing:.01em}
-.gerar::before{display:none}
+.gerar::before{
+  content:""; 
+  display:inline-block; 
+  width:24px; 
+  height:24px; 
+  background:url('dados.png') no-repeat center center; 
+  background-size:contain; 
+  vertical-align:middle; 
+  margin-right:8px;
+}
 
 /* Copiar e Salvar: ícone e texto maior */
 #copiar::before{content:"📋 "}
