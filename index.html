@@ -439,7 +439,7 @@ border-top:2px dashed var(--linha);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.32</span></h1>
+<h1>Mega-Sena <span class="versao">v1.33</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -665,7 +665,7 @@ var t = $('toast'); t.textContent = m; t.classList.add('on');
 clearTimeout(aviso.t); aviso.t = setTimeout(function(){t.classList.remove('on')}, ms || 1800);
 }
 function ler(){ try { return JSON.parse(localStorage.getItem(CHAVE)) || []; } catch(e){ return []; } }
-function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); } catch(e){} }
+function gravar(l){ try { localStorage.setItem(CHAVE, JSON.stringify(l)); return true; } catch(e){ return false; } }
 function lista(){
 var l = ler(), ul = $('hist'); ul.innerHTML = '';
 l.forEach(function(item, idx){
@@ -686,7 +686,7 @@ x.setAttribute('aria-label', 'Apagar esta aposta salva');
 x.onclick = function(){
 perguntar('Apagar esta aposta?', 'Ela sai da lista e não dá para voltar.', 'Apagar', function(){
 var atual = ler(); atual.splice(idx, 1);
-gravar(atual); lista(); aviso('Apagado');
+if (gravar(atual)) { lista(); aviso('Apagado'); } else { aviso('Não deu para apagar'); }
 });
 };
 var cp = document.createElement('button');
@@ -831,11 +831,11 @@ var igual = function(js){ return js.map(txt1).join('|'); };
 var atual = igual(jogos);
 if (l.some(function(it){ return igual(it.jogos || [it]) === atual; })){ aviso('Já está salva'); return; }
 l.unshift({jogos: jogos, em: Date.now()});
-gravar(l.slice(0,20)); lista(); aviso('Salvo');
+if (gravar(l.slice(0,20))) { lista(); aviso('Salvo'); } else { aviso('Não deu para salvar'); }
 };
 $('limpar').onclick = function(){
 perguntar('Apagar todas as apostas?', 'Todas as apostas salvas vão sair da lista. Não dá para voltar.', 'Apagar', function(){
-gravar([]); lista(); aviso('Apagado');
+if (gravar([])) { lista(); aviso('Apagado'); } else { aviso('Não deu para apagar'); }
 });
 };
 
