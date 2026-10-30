@@ -350,19 +350,17 @@ MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
 /* Botão principal: mais chamativo, com ícone */
 #gerar {
 position: relative;
-padding-left: 88px;
-min-height: 78px;   /* ← AQUI: botão cresce pra caber o ícone */
+gap: 12px; /* Espaço entre a imagem e o texto */
+/* Removido o padding-left para o flex centralizar tudo */
 }
 #gerar::before {
 content: "";
-position: absolute;
+/* Removido o absolute para a imagem entrar no fluxo flex */
 width: 70px;
 height: 70px;
 background: url('bolinhas.png') no-repeat center center;
 background-size: contain;
-left: 10px;
-top: 50%;
-transform: translateY(-50%);
+flex-shrink: 0; /* Impede a imagem de ser esmagada */
 pointer-events: none;
 }
 
