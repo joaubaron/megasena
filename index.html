@@ -9,344 +9,93 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{
---fundo:#eef4ee; --papel:#ffffff; --texto:#17261f; --suave:#5d6f66;
---verde:#0f6b4a; --verde2:#209869; --verde3:#0a4d35; --ouro:#e0a82e; --linha:#dbe5dc;
---sombra:0 14px 32px -16px rgba(10,60,40,.45);
---faixa1:#127a55; --faixa2:#0a4d35;
---chave:#c3cfc6;
-}
-@media (prefers-color-scheme:dark){
-:root{
---fundo:#0b1511; --papel:#15241d; --texto:#eaf2ed; --suave:#9db3a8; --linha:#27392f;
---sombra:0 14px 32px -16px rgba(0,0,0,.7);
---faixa1:#0f6b4a; --faixa2:#08382a;
---chave:#3a4c43;
-}
-}
-*{box-sizing:border-box}
-html,body{margin:0}
-body{
-position:relative; isolation:isolate;
-background:var(--fundo); color:var(--texto);
-font:17px/1.45 ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-padding:max(18px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
-min-height:100vh;
--webkit-tap-highlight-color:transparent;
-}
-/* faixa verde do topo, com bolinhas de fundo */
-body::before{
-content:""; position:absolute; z-index:-1; top:0; left:0; right:0; height:230px;
-background:
-radial-gradient(circle at 90% 22%, rgba(255,255,255,.12) 0 44px, transparent 45px),
-radial-gradient(circle at 76% 62%, rgba(224,168,46,.40) 0 20px, transparent 21px),
-radial-gradient(circle at 98% 78%, rgba(255,255,255,.08) 0 30px, transparent 31px),
-linear-gradient(160deg,var(--faixa1),var(--faixa2));
-border-radius:0 0 30px 30px;
-}
-main{max-width:480px;margin:0 auto}
+/* ===== MELHORIAS VISUAIS (só CSS) ===== */
 
-/* --- CABEÇALHO COM LOGO --- */
-.cabecalho {
-display: flex;
-align-items: center;
-gap: 16px;
-margin: 6px 0 20px;
-}
+/* Botão principal: mais chamativo, com ícone */
+.gerar{font-size:1.25rem;min-height:60px;letter-spacing:.01em}
+.gerar::before{content:"🎲 "}
 
-.cabecalho .logo {
-width: 64px;
-height: 64px;
-object-fit: contain;
-flex-shrink: 0;
-border-radius: 12px;
-}
+/* Copiar e Salvar: ícone e texto maior */
+#copiar::before{content:"📋 "}
+#salvar::before{content:"💾 "}
+.acoes button{font-size:1.05rem;min-height:52px}
+.sec:disabled{opacity:.35;border-style:dashed}
+.sec:active:not(:disabled){transform:scale(.97)}
+.hist .cop::before{content:"📋 "}
 
-.cabecalho .textos {
-display: flex;
-flex-direction: column;
-justify-content: center;
+/* Título da área de ajustes */
+.opcoes::before{
+  content:"Ajustes";
+  padding:14px 0 10px;
+  font-weight:800;font-size:1.05rem;color:var(--verde);
+  border-bottom:1px solid var(--linha);
 }
+@media (prefers-color-scheme:dark){.opcoes::before{color:#5fd3a2}}
 
-.cabecalho h1 {
-font-size: 1.5rem;
-font-weight: 800;
-letter-spacing: -.01em;
-margin: 0 0 2px 0;
-color: #fff;
-line-height: 1.2;
+/* Chaves liga/desliga com texto SIM / NÃO */
+label.op input{width:64px;height:34px}
+label.op input::before{
+  content:"NÃO";position:absolute;top:0;bottom:0;right:9px;
+  display:flex;align-items:center;
+  font-size:.7rem;font-weight:800;color:var(--texto);opacity:.65;
+}
+label.op input::after{width:28px;height:28px;top:3px;left:3px}
+label.op input:checked::before{
+  content:"SIM";left:10px;right:auto;color:#fff;opacity:1;
+}
+label.op input:checked::after{transform:translateX(30px)}
+
+/* Textos de apoio mais fáceis de ler */
+label.op b,.linha b{font-size:1.02rem}
+label.op span{font-size:.92rem;line-height:1.4;margin-top:2px}
+
+/* "Quantas das suas" fica como sub-opção */
+.linha{
+  margin-left:12px;padding-left:14px;
+  border-left:3px solid var(--verde2);
+}
+.linha:has(select:disabled){border-left-color:var(--linha)}
+select{min-height:48px;min-width:64px;font-size:1.05rem;text-align:center}
+
+/* Tabela de chances mais legível */
+.chance{font-size:1rem}
+.chance table{font-size:.86rem}
+.chance th,.chance td{padding:9px 5px}
+.chance thead th{font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+.chance tbody tr:first-child td{font-weight:700}
+
+/* Aviso com destaque */
+.aviso{
+  font-size:.95rem;line-height:1.45;
+  padding:12px 14px;border-radius:14px;
+  background:rgba(15,107,74,.07);
+  border-left:4px solid var(--verde2);
+  margin:14px 0 0;
 }
 
-.cabecalho .sub {
-color: rgba(255,255,255,.86);
-margin: 0;
-font-size: 0.90rem;
-line-height: 1.3;
+/* Apostas salvas */
+h2{
+  font-size:1.2rem;margin:30px 2px 12px;
+  display:flex;align-items:center;gap:8px;
 }
-/* ------------------------------- */
+h2::before{content:"📌"}
+.hist li{font-size:1.05rem;line-height:1.6}
+.hist .acoes-item button{min-height:36px;font-size:.92rem}
 
-.painel{
-background:var(--papel);border:1px solid var(--linha);border-radius:24px;
-padding:22px 16px 16px;box-shadow:var(--sombra);
-}
-.bolas{display:flex;flex-wrap:nowrap;gap:6px;justify-content:center;align-items:center;container-type:inline-size}
-
-/* bola de sorteio: esfera verde com miolo branco */
-.bola{
-position:relative;isolation:isolate;
-width:auto;height:auto;flex:0 1 50px;min-width:0;aspect-ratio:1;border-radius:50%;
-display:grid;place-items:center;
-font-size:min(1.1rem,4.6cqw);font-weight:800;color:var(--verde3);
-font-variant-numeric:tabular-nums;
-background:radial-gradient(circle at 32% 26%,#46c995 0,var(--verde2) 32%,var(--verde) 72%,var(--verde3) 100%);
-box-shadow:0 7px 10px -5px rgba(10,60,40,.55),inset 0 -4px 7px rgba(0,0,0,.2);
-animation:cai .5s cubic-bezier(.34,1.56,.64,1) backwards;
-}
-.bola::before{
-content:"";position:absolute;z-index:-1;inset:18%;border-radius:50%;
-background:#fff;box-shadow:inset 0 1px 3px rgba(0,0,0,.16);
-}
-.bola::after{
-content:"";position:absolute;top:9%;left:20%;width:28%;height:15%;border-radius:50%;
-background:rgba(255,255,255,.6);transform:rotate(-28deg);filter:blur(1px);pointer-events:none;
-}
-.bola.extra{
-color:#6b4a00; outline:2px dashed var(--ouro); outline-offset:2px;
-background:radial-gradient(circle at 32% 26%,#fbe39a 0,#efc552 32%,var(--ouro) 72%,#b9831a 100%);
-box-shadow:0 7px 10px -5px rgba(120,80,0,.55),inset 0 -4px 7px rgba(0,0,0,.18);
-}
-@keyframes cai{from{transform:translateY(-26px) scale(.6);opacity:0}}
-@media (prefers-reduced-motion:reduce){.bola{animation:none}*{transition:none!important}}
-
-.vazio{color:var(--suave);text-align:center;margin:0}
-.vazio::before{
-content:"";display:block;height:46px;width:276px;max-width:100%;margin:0 auto 14px;
-background:radial-gradient(circle,var(--linha) 0 18px,transparent 19px) 0 0/46px 46px repeat-x;
-}
-.jogo + .jogo{border-top:2px dashed var(--linha);margin-top:18px;padding-top:18px}
-.titulo{margin:0 0 12px;font-weight:400;text-align:center;color:var(--verde)}
-@media (prefers-color-scheme:dark){.titulo{color:var(--verde2)}}
-.titulo .palavra-extra{color:var(--ouro);font-weight:400;position:relative}
-.titulo .palavra-extra::after{content:"";position:absolute;left:0;right:0;bottom:-4px;border-bottom:2px dashed var(--ouro);text-shadow:none}
-
-button{
-font:inherit;font-weight:700;border:0;border-radius:14px;cursor:pointer;
-padding:14px 16px;min-height:48px;
-}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
-button:disabled{opacity:.45;cursor:not-allowed}
-.gerar{
-width:100%;color:#fff;font-size:1.15rem;margin-top:18px;min-height:54px;border-radius:16px;
-background:linear-gradient(180deg,var(--verde2),var(--verde));
-box-shadow:0 4px 0 var(--verde3),0 12px 18px -8px rgba(15,107,74,.65);
-transition:transform .08s,box-shadow .08s;
-}
-.gerar:active{transform:translateY(3px);box-shadow:0 1px 0 var(--verde3),0 6px 10px -6px rgba(15,107,74,.6)}
-.sec{background:rgba(15,107,74,.08);color:var(--verde);border:1.5px solid rgba(15,107,74,.35)}
-@media (prefers-color-scheme:dark){.sec{background:rgba(32,152,105,.12);color:#5fd3a2;border-color:rgba(32,152,105,.5)}}
-.acoes{display:flex;gap:10px;margin-top:12px}
-.acoes button{flex:1}
-
-/* opções em um cartão, com chaves liga/desliga */
-.opcoes{
-margin-top:18px;background:var(--papel);border:1px solid var(--linha);
-border-radius:20px;padding:4px 16px;display:grid;gap:0;box-shadow:var(--sombra);
-}
-.opcoes > *{padding:14px 0}
-.opcoes > * + *{border-top:1px solid var(--linha)}
-label.op{display:flex;gap:14px;align-items:center;cursor:pointer}
-label.op > div{flex:1;min-width:0}
-label.op input{
--webkit-appearance:none;appearance:none;order:2;flex:none;margin:0;cursor:pointer;
-width:48px;height:29px;border-radius:999px;background:var(--chave);position:relative;
-transition:background .2s;
-}
-label.op input::after{
-content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;
-background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s;
-}
-label.op input:checked{background:var(--verde2)}
-label.op input:checked::after{transform:translateX(19px)}
-label.op input:disabled{cursor:not-allowed}
-label.op:has(input:disabled){opacity:.5}
-label.op b{display:block}
-label.op span{color:var(--suave);font-size:.9rem}
-.linha{display:flex;align-items:center;justify-content:space-between;gap:12px}
-select{
-font:inherit;font-weight:700;padding:10px 12px;min-height:44px;border-radius:12px;
-border:1.5px solid var(--linha);background:var(--fundo);color:var(--texto);
-}
-select:disabled{opacity:.5}
-.chance{
-margin-top:18px;padding:14px 16px;border-radius:16px;font-size:.95rem;
-background:rgba(224,168,46,.14);border:1px solid rgba(224,168,46,.4);
-}
-
-/* tabela de chances/preços dentro do card .chance */
-.chance table{
-width:100%;
-border-collapse:collapse;
-font-size:.78rem;
-font-variant-numeric:tabular-nums;
-}
-.chance th,
-.chance td{
-padding:7px 4px;
-text-align:right;
-border-bottom:1px solid rgba(224,168,46,.35);
-white-space:nowrap;
-}
-.chance th:first-child,
-.chance td:first-child{
-text-align:left;
-white-space:normal;
-}
-.chance thead th{
-font-weight:800;
-color:var(--verde3);
-border-bottom-width:2px;
-}
-@media (prefers-color-scheme:dark){
-.chance thead th{color:var(--verde2)}
-}
-.chance tbody tr:last-child td{border-bottom:0}
-.chance .preco{font-weight:700}
-.chance .chance-val{color:var(--suave)}
-
-/* 2 linhas verticais separando as 3 colunas */
-.chance th:not(:last-child),
-.chance td:not(:last-child){
-border-right:1px solid rgba(224,168,46,.35);
-}
-.chance thead th:not(:last-child){
-border-right-width:2px;
-}
-
-.aviso{color:var(--suave);font-size:.9rem;margin:14px 6px 0}
-h2{font-size:1.1rem;font-weight:800;margin:28px 2px 10px}
-.hist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.hist li{
-background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:12px 14px;
-font-weight:700;letter-spacing:.03em;font-variant-numeric:tabular-nums;
-}
-.hist li{position:relative;padding-right:110px;min-height:86px}
-.hist .acoes-item{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px;width:90px}
-.hist .acoes-item button{min-height:30px;padding:3px 10px;font-size:.88rem;border-radius:10px;width:100%}
-.hist .del{
-background:transparent;
-color:#b3382c;border:1.5px solid rgba(179,56,44,.4);
-}
-@media (prefers-color-scheme:dark){.hist .del{color:#ff9a8f;border-color:rgba(255,154,143,.45)}}
-.hist .ex{color:#b9831a;font-weight:800}
-@media (prefers-color-scheme:dark){.hist .ex{color:var(--ouro)}}
-.hist small{display:block;color:var(--suave);font-weight:400;letter-spacing:0;margin-top:2px}
-.toast{
-position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);
-background:var(--texto);color:var(--fundo);padding:11px 18px;border-radius:999px;font-size:.95rem;font-weight:600;
-box-shadow:0 8px 20px -6px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s
-}
-.toast.on{opacity:1}
-.versao{
-font-size:.7rem;
-font-weight:700;
-padding:2px 8px;
-border-radius:999px;
-background:rgba(255,255,255,.2);
-vertical-align:middle;
-}
-
-/* --- RODAPÉ: 2 BOTÕES NA MESMA LINHA, MESMO ESTILO --- */
+/* Rodapé mais fácil de tocar */
 .rodape-botoes{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-margin-top:16px;
-width:100%;
+  margin-top:22px;padding-top:10px;
+  border-top:2px dashed var(--linha);
 }
-.btn-rodape{
-background:transparent;
-border:0;
-color:var(--verde);
-font:inherit;
-font-size:1rem;
-font-weight:700;
-text-decoration:none;
-padding:12px 4px;
-min-height:44px;
-cursor:pointer;
-white-space:nowrap;
-}
-@media (prefers-color-scheme:dark){
-.btn-rodape{color:#5fd3a2}
-}
-.ico{width:1.15em;height:1.15em;fill:currentColor;vertical-align:-.22em;margin-right:6px}
-#limpar{color:#b3382c}
-@media (prefers-color-scheme:dark){#limpar{color:#ff9a8f}}
+.btn-rodape{font-size:1.05rem;min-height:48px;padding:12px 10px}
 
-/* --- MODAL --- */
-.modal-fundo {
-position: fixed;
-top: 0; left: 0; right: 0; bottom: 0;
-background: rgba(0,0,0,0.75);
-display: none;
-align-items: center;
-justify-content: center;
-z-index: 999;
-padding: 20px;
-backdrop-filter: blur(4px);
-}
-.modal-fundo.ativo {
-display: flex;
-}
-.modal-conteudo {
-background: var(--papel);
-padding: 10px;
-border-radius: 20px;
-max-width: 100%;
-max-height: 90vh;
-position: relative;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.modal-conteudo img {
-max-width: 100%;
-max-height: 80vh;
-border-radius: 12px;
-display: block;
-}
-/* Botão X para fechar */
-.btn-fechar {
-position: absolute;
-top: -15px;
-right: -15px;
-background: #b3382c;
-color: #fff;
-border-radius: 50%;
-width: 36px;
-height: 36px;
-padding: 0;
-min-height: 0;
-font-size: 1.2rem;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-border: 2px solid var(--papel);
-}
+/* Bolas um pouco maiores e com mais respiro */
+.painel{padding:24px 14px 16px}
+.bolas{gap:7px}
+.titulo{font-size:1rem;font-weight:700}
 
-/* --- CAIXA DE CONFIRMAÇÃO (no lugar da janela do sistema) --- */
-.caixa{
-background:var(--papel);border:1px solid var(--linha);border-radius:22px;
-padding:22px 20px 18px;width:100%;max-width:340px;
-box-shadow:0 14px 40px rgba(0,0,0,.45);
-}
-.caixa h3{margin:0 0 6px;font-size:1.2rem;font-weight:800;line-height:1.25}
-.caixa p{margin:0 0 18px;color:var(--suave);font-size:1rem}
-.caixa .botoes{display:flex;gap:10px}
-.caixa .botoes button{flex:1}
-button.perigo{background:#b3382c;color:#fff}
-button.ok{background:var(--verde);color:#fff}
+/* Caixa de confirmação: botões grandes */
+.caixa .botoes button{min-height:52px;font-size:1.05rem}
 </style>
 </head>
 <body>
