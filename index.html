@@ -445,7 +445,7 @@ border-top:2px dashed var(--linha);
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.33</span></h1>
+<h1>Mega-Sena <span class="versao">v1.34</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -468,7 +468,7 @@ border-top:2px dashed var(--linha);
 <label for="qtdMinhas"><b>Quantas das suas dezenas por aposta</b></label>
 <select id="qtdMinhas">
 <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
-<option value="4">4</option><option value="5">5</option><option value="6">6</option>
+<option value="4">4</option><option value="5">5</option>
 </select>
 </div>
 <label class="op">
@@ -560,7 +560,7 @@ for (i = 1; i < d.length; i++){
 seq = (d[i] === d[i-1] + 1) ? seq + 1 : 1;
 if (seq >= 3) return true;                                  // 3 seguidos
 }
-if (d.filter(function(n){return n <= 31}).length >= 5) return true;   // quase só datas
+if (d.filter(function(n){return n <= 31}).length === 6) return true;  // só datas (todas até 31)
 var fim = {}, lin = {};
 d.forEach(function(n){
 fim[n % 10] = (fim[n % 10] || 0) + 1;
@@ -587,7 +587,7 @@ return out;
 }
 function montar(){
 if (!$('optMinhas').checked) return sortear(6, usaCoringa() ? [CORINGA] : null);
-var k = +$('qtdMinhas').value;
+var k = Math.min(+$('qtdMinhas').value, 5);
 var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
 
 var resto = 6 - k, extras;
@@ -603,14 +603,22 @@ return minhas.concat(extras).sort(function(a,b){return a-b});
 }
 function usaCoringa(){ return $('optExtra').checked && $('optCoringa').checked; }
 function extraDe(d){ return usaCoringa() ? CORINGA : sortear(1, d)[0]; }
+// dezenas das apostas já salvas, para não repetir
+function chavesSalvas(){
+var o = {};
+ler().forEach(function(it){
+(it.jogos || [it]).forEach(function(j){ o[j.dez.join('-')] = 1; });
+});
+return o;
+}
 var apertado = false;
-function um(){
+function um(salvos){
 var d, e, k, ruim, t = 0;
 do {
 d = montar();
 e = $('optExtra').checked ? extraDe(d) : null;
 k = d.join('-') + '|' + e;
-ruim = ($('optComum').checked && comum(d)) || vistos[k];
+ruim = ($('optComum').checked && comum(d)) || vistos[k] || salvos[d.join('-')];
 t++;
 } while (ruim && t < 500);
 if (ruim) apertado = true;
@@ -619,11 +627,12 @@ return {dez: d, extra: e, c: usaCoringa()};
 }
 function gerar(){
 jogos = []; apertado = false;
+var salvos = chavesSalvas();
 for (var i = 0; i < 2; i++){
-jogos.push(um());
+jogos.push(um(salvos));
 }
 desenhar();
-if (apertado) informar('Poucas apostas diferentes', 'Use menos das suas dezenas para variar');
+if (apertado) informar('Poucas apostas diferentes', 'Use menos das suas dezenas ou apague apostas salvas');
 }
 function bola(n, extra, atraso){
 var s = document.createElement('div');
@@ -778,7 +787,7 @@ if (c.quentes != null) $('optQuentes').checked = c.quentes;
 if (c.extra != null) $('optExtra').checked = c.extra;
 if (c.comum != null) $('optComum').checked = c.comum;
 if (c.coringa != null) $('optCoringa').checked = c.coringa;
-if (c.qtd) $('qtdMinhas').value = c.qtd;
+if (c.qtd) $('qtdMinhas').value = Math.min(+c.qtd, 5);
 } catch(e){}
 }
 function salvarCfg(){
@@ -789,9 +798,8 @@ extra: $('optExtra').checked, comum: $('optComum').checked, coringa: $('optCorin
 }
 function atualizaOpcoes(){
 var on = $('optMinhas').checked;
-var k = +$('qtdMinhas').value;
 $('qtdMinhas').disabled = !on;
-$('optQuentes').disabled = !on || k >= 6;
+$('optQuentes').disabled = !on;
 $('optCoringa').disabled = !$('optExtra').checked;
 salvarCfg();
 }
