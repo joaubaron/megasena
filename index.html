@@ -573,7 +573,7 @@ return (j.extra != null && n === j.extra) ? f(n) + '*' : f(n);
 }).join(' ');
 }
 function txt(l){
-return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j); }).join('\n');
+return l.map(function(j,i){ return 'Aposta ' + (i+1) + ': ' + txt1(j).replace(/\*/g, ''); }).join('\n');
 }
 function aviso(m, ms){
 var t = $('toast'); t.textContent = m; t.classList.add('on');
