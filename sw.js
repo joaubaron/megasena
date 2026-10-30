@@ -2,7 +2,16 @@
 // A versão é atualizada automaticamente pelo deploy.yml
 const CACHE_VERSION = '30.10.2026-1202'; // O robô vai mudar isso
 const CACHE_NAME = `megasena-${CACHE_VERSION}`;
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
+const ASSETS = [
+'./',
+'./index.html',
+'./manifest.json',
+'./icon-192.png',
+'./icon-512.png',
+'./logo.png',
+'./bolinhas.png',
+'./numeros.webp'
+];
 
 self.addEventListener('install', function(e){
 e.waitUntil(caches.open(CACHE_NAME).then(function(c){return c.addAll(ASSETS)}));
