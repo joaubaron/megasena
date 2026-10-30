@@ -349,23 +349,23 @@ button.perigo{background:#b3382c;color:#fff}
 button.ok{background:var(--verde);color:#fff}
 
 /* ============================================================
-   MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
-   ============================================================ */
+MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
+============================================================ */
 
 /* Botão principal: mais chamativo, com ícone */
 .gerar{font-size:1.25rem;min-height:60px;letter-spacing:.01em}
 .gerar::before{
-  content:"🎲";display:inline-block;margin-right:.4em;
-  animation:sacode 3s ease-in-out infinite;
+content:"🎲";display:inline-block;margin-right:.4em;
 }
-.gerar:active::before{animation:gira .45s linear infinite}
+.gerar.animando::before{animation:sacode .6s ease-in-out}
+.gerar:active.animando::before{animation:gira .45s linear infinite}
 @keyframes sacode{
-  0%,55%,100%{transform:translateY(0) rotate(0)}
-  8%{transform:translateY(-6px) rotate(-28deg)}
-  18%{transform:translateY(0) rotate(22deg)}
-  28%{transform:translateY(-4px) rotate(-16deg)}
-  38%{transform:translateY(0) rotate(10deg)}
-  48%{transform:translateY(0) rotate(-4deg)}
+0%,55%,100%{transform:translateY(0) rotate(0)}
+8%{transform:translateY(-6px) rotate(-28deg)}
+18%{transform:translateY(0) rotate(22deg)}
+28%{transform:translateY(-4px) rotate(-16deg)}
+38%{transform:translateY(0) rotate(10deg)}
+48%{transform:translateY(0) rotate(-4deg)}
 }
 @keyframes gira{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.gerar::before{animation:none!important}}
@@ -379,10 +379,10 @@ button.ok{background:var(--verde);color:#fff}
 
 /* Título da área de ajustes */
 .opcoes::before{
-  content:"⚙️ Ajustes";
-  padding:14px 0 10px;
-  font-weight:800;font-size:1.05rem;color:var(--verde);
-  border-bottom:1px solid var(--linha);
+content:"⚙️ Ajustes";
+padding:14px 0 10px;
+font-weight:800;font-size:1.05rem;color:var(--verde);
+border-bottom:1px solid var(--linha);
 }
 @media (prefers-color-scheme:dark){.opcoes::before{color:#5fd3a2}}
 
@@ -397,8 +397,8 @@ label.op span{font-size:.92rem;line-height:1.4;margin-top:2px}
 
 /* "Quantas das suas" fica como sub-opção */
 .linha{
-  margin-left:12px;padding-left:14px;
-  border-left:3px solid var(--verde2);
+margin-left:12px;padding-left:14px;
+border-left:3px solid var(--verde2);
 }
 .linha:has(select:disabled){border-left-color:var(--linha)}
 select{min-height:48px;min-width:64px;font-size:1.05rem;text-align:center}
@@ -412,17 +412,17 @@ select{min-height:48px;min-width:64px;font-size:1.05rem;text-align:center}
 
 /* Aviso com destaque */
 .aviso{
-  font-size:.95rem;line-height:1.45;
-  padding:12px 14px;border-radius:14px;
-  background:rgba(15,107,74,.07);
-  border-left:4px solid var(--verde2);
-  margin:14px 0 0;
+font-size:.95rem;line-height:1.45;
+padding:12px 14px;border-radius:14px;
+background:rgba(15,107,74,.07);
+border-left:4px solid var(--verde2);
+margin:14px 0 0;
 }
 
 /* Apostas salvas */
 h2{
-  font-size:1.2rem;margin:30px 2px 12px;
-  display:flex;align-items:center;gap:8px;
+font-size:1.2rem;margin:30px 2px 12px;
+display:flex;align-items:center;gap:8px;
 }
 h2[hidden]{display:none}
 h2::before{content:"📌"}
@@ -431,8 +431,8 @@ h2::before{content:"📌"}
 
 /* Rodapé mais fácil de tocar */
 .rodape-botoes{
-  margin-top:22px;padding-top:10px;
-  border-top:2px dashed var(--linha);
+margin-top:22px;padding-top:10px;
+border-top:2px dashed var(--linha);
 }
 .btn-rodape{font-size:1.05rem;min-height:48px;padding:12px 10px}
 
@@ -805,7 +805,13 @@ $('listaMinhas').textContent = fmt(MINHAS);
 $('listaQuentes').textContent = fmt(QUENTES);
 lerCfg(); atualizaOpcoes(); historico();
 
-$('gerar').onclick = gerar;
+$('gerar').onclick = function(){
+var b = $('gerar');
+b.classList.remove('animando');
+void b.offsetWidth;
+b.classList.add('animando');
+gerar();
+};
 $('optComum').onchange = salvarCfg;
 $('optExtra').onchange = function(){
 salvarCfg();
