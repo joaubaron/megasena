@@ -468,7 +468,7 @@ border-top:2px dashed var(--linha);
 <label for="qtdMinhas"><b>Quantas das suas dezenas por aposta</b></label>
 <select id="qtdMinhas">
 <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
-<option value="4">4</option><option value="5">5</option>
+<option value="4">4</option><option value="5">5</option><option value="6">6</option>
 </select>
 </div>
 <label class="op">
@@ -587,7 +587,7 @@ return out;
 }
 function montar(){
 if (!$('optMinhas').checked) return sortear(6, usaCoringa() ? [CORINGA] : null);
-var k = Math.min(+$('qtdMinhas').value, 5);
+var k = Math.min(+$('qtdMinhas').value, 6);
 var minhas = escolher(MINHAS, k); // Pega APENAS da lista das 6 fortes
 
 var resto = 6 - k, extras;
@@ -787,7 +787,7 @@ if (c.quentes != null) $('optQuentes').checked = c.quentes;
 if (c.extra != null) $('optExtra').checked = c.extra;
 if (c.comum != null) $('optComum').checked = c.comum;
 if (c.coringa != null) $('optCoringa').checked = c.coringa;
-if (c.qtd) $('qtdMinhas').value = Math.min(+c.qtd, 5);
+if (c.qtd) $('qtdMinhas').value = Math.min(+c.qtd, 6);
 } catch(e){}
 }
 function salvarCfg(){
