@@ -358,14 +358,7 @@ MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
 content:"🎲";display:inline-block;margin-right:.4em;
 }
 .gerar.animando::before{animation:sacode .6s ease-in-out}
-
-/* NOVO: Giro 3D para mostrar as faces 4, 5 e 6 */
-.gerar.animando.face-4::before{content:"🎲"; transform: rotateX(90deg);}
-.gerar.animando.face-5::before{content:"🎲"; transform: rotateY(90deg);}
-.gerar.animando.face-6::before{content:"🎲"; transform: rotateX(180deg);}
-
 .gerar:active.animando::before{animation:gira .45s linear infinite}
-
 @keyframes sacode{
 0%,55%,100%{transform:translateY(0) rotate(0)}
 8%{transform:translateY(-6px) rotate(-28deg)}
@@ -814,25 +807,10 @@ lerCfg(); atualizaOpcoes(); historico();
 
 $('gerar').onclick = function(){
 var b = $('gerar');
-// Limpa as classes antigas
-b.classList.remove('animando', 'face-4', 'face-5', 'face-6');
+b.classList.remove('animando');
 void b.offsetWidth;
 b.classList.add('animando');
 gerar();
-
-b.addEventListener('animationend', function fim(){
-b.removeEventListener('animationend', fim);
-// Sorteia entre as faces 4, 5 ou 6
-var faces = ['face-4', 'face-5', 'face-6'];
-var sorteada = faces[Math.floor(Math.random() * faces.length)];
-b.classList.add(sorteada);
-});
-};
-
-b.addEventListener('animationend', function fim(){
-b.removeEventListener('animationend', fim);
-b.classList.add('face-final');
-});
 };
 $('optComum').onchange = salvarCfg;
 $('optExtra').onchange = function(){
