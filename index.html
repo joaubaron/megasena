@@ -348,14 +348,22 @@ MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
 ============================================================ */
 
 /* Botão principal: mais chamativo, com ícone */
+#gerar {
+position: relative;
+padding-left: 88px;
+min-height: 78px;   /* ← AQUI: botão cresce pra caber o ícone */
+}
 #gerar::before {
-content: ""; 
-display: inline-block; 
-width: 70px; 
-height: 70px; 
-background: url('bolinhas.png') no-repeat center center; 
-background-size: contain; 
-margin-right: 8px;
+content: "";
+position: absolute;
+width: 70px;
+height: 70px;
+background: url('bolinhas.png') no-repeat center center;
+background-size: contain;
+left: 10px;
+top: 50%;
+transform: translateY(-50%);
+pointer-events: none;
 }
 
 /* Copiar e Salvar: ícone e texto maior */
@@ -446,7 +454,7 @@ border-top:2px dashed var(--linha);
 
 <section class="painel" aria-live="polite">
 <div id="jogos"><p class="vazio"></p></div>
-<button class="sec" id="gerar" style="width:100%; font-size:1.15rem; margin-top:18px; min-height:54px; border-radius:16px; display:flex; align-items:center; justify-content:center;">Gerar 2 apostas</button>
+<button class="sec" id="gerar" style="width:100%; font-size:1.15rem; margin-top:18px; border-radius:16px; display:flex; align-items:center; justify-content:center;">Gerar 2 apostas</button>
 <div class="acoes">
 <button class="sec" id="copiar" disabled>Copiar</button>
 <button class="sec" id="salvar" disabled>Salvar</button>
