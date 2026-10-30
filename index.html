@@ -347,6 +347,97 @@ box-shadow:0 14px 40px rgba(0,0,0,.45);
 .caixa .botoes button{flex:1}
 button.perigo{background:#b3382c;color:#fff}
 button.ok{background:var(--verde);color:#fff}
+
+/* ============================================================
+   MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
+   ============================================================ */
+
+/* Botão principal: mais chamativo, com ícone */
+.gerar{font-size:1.25rem;min-height:60px;letter-spacing:.01em}
+.gerar::before{content:"🎲 "}
+
+/* Copiar e Salvar: ícone e texto maior */
+#copiar::before{content:"📋 "}
+#salvar::before{content:"💾 "}
+.acoes button{font-size:1.05rem;min-height:52px}
+.sec:disabled{opacity:.35;border-style:dashed}
+.sec:active:not(:disabled){transform:scale(.97)}
+.hist .cop::before{content:"📋 "}
+
+/* Título da área de ajustes */
+.opcoes::before{
+  content:"Ajustes";
+  padding:14px 0 10px;
+  font-weight:800;font-size:1.05rem;color:var(--verde);
+  border-bottom:1px solid var(--linha);
+}
+@media (prefers-color-scheme:dark){.opcoes::before{color:#5fd3a2}}
+
+/* Chaves liga/desliga com texto SIM / NÃO */
+label.op input{width:64px;height:34px}
+label.op input::before{
+  content:"NÃO";position:absolute;top:0;bottom:0;right:9px;
+  display:flex;align-items:center;
+  font-size:.7rem;font-weight:800;color:var(--texto);opacity:.65;
+}
+label.op input::after{width:28px;height:28px;top:3px;left:3px}
+label.op input:checked::before{
+  content:"SIM";left:10px;right:auto;color:#fff;opacity:1;
+}
+label.op input:checked::after{transform:translateX(30px)}
+
+/* Textos de apoio mais fáceis de ler */
+label.op b,.linha b{font-size:1.02rem}
+label.op span{font-size:.92rem;line-height:1.4;margin-top:2px}
+
+/* "Quantas das suas" fica como sub-opção */
+.linha{
+  margin-left:12px;padding-left:14px;
+  border-left:3px solid var(--verde2);
+}
+.linha:has(select:disabled){border-left-color:var(--linha)}
+select{min-height:48px;min-width:64px;font-size:1.05rem;text-align:center}
+
+/* Tabela de chances mais legível */
+.chance{font-size:1rem}
+.chance table{font-size:.86rem}
+.chance th,.chance td{padding:9px 5px}
+.chance thead th{font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+.chance tbody tr:first-child td{font-weight:700}
+
+/* Aviso com destaque */
+.aviso{
+  font-size:.95rem;line-height:1.45;
+  padding:12px 14px;border-radius:14px;
+  background:rgba(15,107,74,.07);
+  border-left:4px solid var(--verde2);
+  margin:14px 0 0;
+}
+
+/* Apostas salvas */
+h2{
+  font-size:1.2rem;margin:30px 2px 12px;
+  display:flex;align-items:center;gap:8px;
+}
+h2[hidden]{display:none}
+h2::before{content:"📌"}
+.hist li{font-size:1.05rem;line-height:1.6}
+.hist .acoes-item button{min-height:36px;font-size:.92rem}
+
+/* Rodapé mais fácil de tocar */
+.rodape-botoes{
+  margin-top:22px;padding-top:10px;
+  border-top:2px dashed var(--linha);
+}
+.btn-rodape{font-size:1.05rem;min-height:48px;padding:12px 10px}
+
+/* Bolas um pouco maiores e com mais respiro */
+.painel{padding:24px 14px 16px}
+.bolas{gap:7px}
+.titulo{font-size:1rem;font-weight:700}
+
+/* Caixa de confirmação: botões grandes */
+.caixa .botoes button{min-height:52px;font-size:1.05rem}
 </style>
 </head>
 <body>
