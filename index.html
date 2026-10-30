@@ -350,7 +350,7 @@ button.ok{background:var(--verde);color:#fff}
 <div class="cabecalho">
 <img src="logo.png" alt="Logo Mega-Sena" class="logo">
 <div class="textos">
-<h1>Mega-Sena <span class="versao">v1.27</span></h1>
+<h1>Mega-Sena <span class="versao">v1.28</span></h1>
 <p class="sub">Gera apostas de 6 dezenas + extra</p>
 </div>
 </div>
@@ -510,18 +510,22 @@ function usaCoringa(){ return $('optExtra').checked && $('optCoringa').checked; 
 function extraDe(d){ return usaCoringa() ? CORINGA : sortear(1, d)[0]; }
 var apertado = false;
 function um(){
-var d, t = 0;
-do { d = montar(); t++; }
-while (((($('optComum').checked && comum(d))) || vistos[d.join('-')]) && t < 500);
-if (vistos[d.join('-')] || ($('optComum').checked && comum(d))) apertado = true;
-vistos[d.join('-')] = 1;
-return d;
+var d, e, k, ruim, t = 0;
+do {
+d = montar();
+e = $('optExtra').checked ? extraDe(d) : null;
+k = d.join('-') + '|' + e;
+ruim = ($('optComum').checked && comum(d)) || vistos[k];
+t++;
+} while (ruim && t < 500);
+if (ruim) apertado = true;
+vistos[k] = 1;
+return {dez: d, extra: e, c: usaCoringa()};
 }
 function gerar(){
 jogos = []; apertado = false;
 for (var i = 0; i < 2; i++){
-var d = um();
-jogos.push({dez: d, extra: $('optExtra').checked ? extraDe(d) : null, c: usaCoringa()});
+jogos.push(um());
 }
 desenhar();
 if (apertado) informar('Poucas apostas diferentes', 'Use menos das suas dezenas para variar');
