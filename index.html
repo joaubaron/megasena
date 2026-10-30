@@ -358,6 +358,7 @@ MELHORIAS VISUAIS (só CSS) — ficam DEPOIS do CSS original
 content:"🎲";display:inline-block;margin-right:.4em;
 }
 .gerar.animando::before{animation:sacode .6s ease-in-out}
+.gerar.animando.face-final::before{content:"⚄"}
 .gerar:active.animando::before{animation:gira .45s linear infinite}
 @keyframes sacode{
 0%,55%,100%{transform:translateY(0) rotate(0)}
@@ -807,10 +808,15 @@ lerCfg(); atualizaOpcoes(); historico();
 
 $('gerar').onclick = function(){
 var b = $('gerar');
-b.classList.remove('animando');
+b.classList.remove('animando','face-final');
 void b.offsetWidth;
 b.classList.add('animando');
 gerar();
+
+b.addEventListener('animationend', function fim(){
+b.removeEventListener('animationend', fim);
+b.classList.add('face-final');
+});
 };
 $('optComum').onchange = salvarCfg;
 $('optExtra').onchange = function(){
